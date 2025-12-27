@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.footballmanager.controller.LeagueTableController">
+    <children>
+
+        <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+
+            <children>
+                <Label styleClass="page-title" text="Lig Tablosu" />
+
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label style="-fx-text-fill: #a1a1aa; -fx-font-size: 14px;" text="Puan durumu otomatik olarak maç sonuçlarına göre güncellenmektedir." />
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <Button fx:id="refreshButton" mnemonicParsing="false" styleClass="btn-primary" text="Yenile">
+                            <padding>
+                                <Insets bottom="8.0" left="25.0" right="25.0" top="8.0" />
+                            </padding>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+
+                <VBox styleClass="table-container" style="-fx-border-color: rgba(234, 179, 8, 0.3); -fx-background-color: linear-gradient(to bottom right, #0f172a, rgba(66, 32, 6, 0.3));" VBox.vgrow="ALWAYS">
+                    <children>
+
+                        <HBox style="-fx-background-color: linear-gradient(to right, rgba(113, 63, 18, 0.5), rgba(124, 45, 18, 0.5)); -fx-padding: 15; -fx-background-radius: 11 11 0 0; -fx-border-color: transparent transparent rgba(234, 179, 8, 0.3) transparent; -fx-border-width: 0 0 1 0;">
+                            <children>
+                                <Label style="-fx-text-fill: #facc15; -fx-font-size: 16px; -fx-font-weight: bold;" text="Süper Lig Puan Durumu" />
+                            </children>
+                        </HBox>
+
+                        <TableView fx:id="leagueTable" styleClass="modern-scroll" stylesheets="@style.css" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="posColumn" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" style="-fx-alignment: CENTER;" text="Sıra">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="teamColumn" prefWidth="250.0" text="Takım">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="playedColumn" prefWidth="60.0" style="-fx-alignment: CENTER;" text="O">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="wonColumn" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #4ade80;" text="G">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="drawColumn" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #facc15;" text="B">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="lostColumn" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #f87171;" text="M">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="gfColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="AG">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="gaColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="YG">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="gdColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="AV">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+
+                                <TableColumn fx:id="pointsColumn" prefWidth="80.0" style="-fx-alignment: CENTER;" text="P">
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                    </styleClass>
+                                </TableColumn>
+                            </columns>
+
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+
+                            <style>
+                                -fx-background-color: transparent;
+                                -fx-base: transparent;
+                                -fx-control-inner-background: transparent;
+                                -fx-background-insets: 0;
+                            </style>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

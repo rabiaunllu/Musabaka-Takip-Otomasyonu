@@ -309,3 +309,47 @@
     -fx-visible: false;
     -fx-pref-height: 0;
 }
+
+
+.table-row-cell:hover {
+    -fx-background-color: rgba(20, 83, 45, 0.4); /* Yeşil hover efekti */
+}
+.table-row-cell:selected {
+    -fx-background-color: rgba(34, 197, 94, 0.2);
+    -fx-border-color: transparent transparent transparent #22c55e;
+    -fx-border-width: 0 0 0 4;
+}
+
+
+// Controller'ın initialize metodunda:
+posColumn.setCellFactory(column -> new TableCell<TeamStats, Integer>() {
+    @Override
+    protected void updateItem(Integer position, boolean empty) {
+        super.updateItem(position, empty);
+        if (empty || position == null) {
+            setText(null);
+            setStyle("");
+        } else {
+            setText(String.valueOf(position));
+
+            // Sıralamaya göre renk ayarı (React mantığı)
+            String colorStyle = "";
+            if (position <= 4) {
+                // Şampiyonlar Ligi (Mavi)
+                colorStyle = "-fx-background-color: linear-gradient(to bottom right, #06b6d4, #3b82f6); -fx-text-fill: white;";
+            } else if (position <= 6) {
+                // Avrupa Ligi (Mor)
+                colorStyle = "-fx-background-color: linear-gradient(to bottom right, #3b82f6, #a855f7); -fx-text-fill: white;";
+            } else if (position >= 15) {
+                // Düşme Hattı (Kırmızı)
+                colorStyle = "-fx-background-color: linear-gradient(to bottom right, #ef4444, #ec4899); -fx-text-fill: white;";
+            } else {
+                // Orta Sıralar (Gri)
+                colorStyle = "-fx-text-fill: #94a3b8;";
+            }
+
+            // Yuvarlak köşeli kutucuk stili
+            setStyle(colorStyle + "-fx-background-radius: 5; -fx-alignment: CENTER; -fx-font-weight: bold;");
+        }
+    }
+});
