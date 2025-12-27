@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="220.0" spacing="15.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="sidebar-title" text="Lig Yöneticisi" textFill="#3b82f6">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Gösterge Paneli">
+               <styleClass>
+                  <String fx:value="menu-button" />
+                  <String fx:value="menu-button-active" />
+               </styleClass>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Takımlar" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Fikstür" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Lig Tablosu" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Canlı Maç" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <HBox prefHeight="70.0" prefWidth="900.0" spacing="10.0" styleClass="top-bar" BorderPane.alignment="CENTER_LEFT">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label styleClass="title-text" text="Sezon 2025-2026" textFill="#94a3b8">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" style="-fx-background-color: #0ea5e9; -fx-text-fill: white; -fx-background-radius: 20;" styleClass="action-button" text="Yönetici Girişi" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <AnchorPane fx:id="anaIcerikAlani" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

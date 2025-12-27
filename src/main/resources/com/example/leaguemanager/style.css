@@ -1,0 +1,311 @@
+/* =========================================
+   1. GENEL AYARLAR VE ARKA PLAN
+   ========================================= */
+.root {
+    /* Scene Builder'da rahat çalışman için koyu zemin */
+    -fx-background-color: #0f172a; 
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Ana Layout Arka Planı */
+.main-background {
+    -fx-background-color: linear-gradient(to bottom right, #1e3a8a, #0f172a);
+}
+
+/* =========================================
+   2. SOL MENÜ (SIDEBAR)
+   ========================================= */
+.sidebar {
+    -fx-background-color: rgba(15, 23, 42, 0.6);
+    /* Sağ tarafa belirgin dikey çizgi */
+    -fx-border-color: transparent rgba(255, 255, 255, 0.2) transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-title {
+    -fx-text-fill: #38bdf8; /* Açık Neon Mavi */
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15 0;
+    -fx-border-color: transparent transparent rgba(148, 163, 184, 0.2) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8; /* Gri */
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.menu-button-active {
+    -fx-background-color: linear-gradient(to right, #0ea5e9, #2563eb);
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+}
+
+/* =========================================
+   3. ÜST BAR (TOP BAR)
+   ========================================= */
+.top-bar {
+    -fx-padding: 20px;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.1) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.title-text {
+    -fx-font-size: 18px;
+    -fx-text-fill: #94a3b8;
+    -fx-font-weight: bold;
+}
+
+.action-button {
+    -fx-background-color: #0ea5e9;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+/* =========================================
+   4. GÖSTERGE PANELİ - KARTLAR (STATS)
+   ========================================= */
+.dashboard-card {
+    /* React: bg-gradient-to-br from-slate-900 to-slate-950 */
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, #020617);
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-width: 2px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 4);
+}
+
+/* Kart Kenarlıkları */
+.card-mavi  { -fx-border-color: #06b6d4; } /* Cyan */
+.card-pembe { -fx-border-color: #d946ef; } /* Fuchsia */
+.card-yesil { -fx-border-color: #22c55e; } /* Green */
+
+/* Kart Yazıları */
+.card-number {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+}
+/* Gradyan görünümlü metin renkleri */
+.text-mavi  { -fx-text-fill: #06b6d4; }
+.text-pembe { -fx-text-fill: #d946ef; }
+.text-yesil { -fx-text-fill: #22c55e; }
+
+
+/* =========================================
+   5. TABLOLAR (MAVİ & MOR LİSTELER)
+   ========================================= */
+
+/* Tablo Dış Çerçevesi */
+.table-container {
+    -fx-padding: 0; /* İçeriği sıfırladık, başlık yapışsın diye */
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);
+}
+
+/* --- A. MAVİ TABLO --- */
+.blue-table {
+    /* React: slate-900 -> blue-950/30 */
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, rgba(23, 37, 84, 0.4));
+    -fx-border-color: rgba(6, 182, 212, 0.3);
+}
+
+/* Mavi Başlık Şeridi (Yeni Eklenen) */
+.blue-table .table-header {
+    /* React: cyan-900/50 -> blue-900/50 */
+    -fx-background-color: linear-gradient(to right, rgba(22, 78, 99, 0.6), rgba(30, 58, 138, 0.6));
+    -fx-padding: 15px;
+    -fx-background-radius: 11 11 0 0; /* Sadece üst köşeler */
+    -fx-border-color: transparent transparent rgba(6, 182, 212, 0.3) transparent;
+    -fx-border-width: 0 0 1 0;
+    
+    /* İçindeki yazı ayarı */
+    -fx-text-fill: #67e8f9; 
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* --- B. MOR TABLO --- */
+.purple-table {
+    /* React: slate-900 -> purple-950/30 */
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, rgba(59, 7, 100, 0.4));
+    -fx-border-color: rgba(168, 85, 247, 0.3);
+}
+
+/* Mor Başlık Şeridi */
+.purple-table .table-header {
+    /* React: purple-900/50 -> pink-900/50 */
+    -fx-background-color: linear-gradient(to right, rgba(88, 28, 135, 0.6), rgba(131, 24, 67, 0.6));
+    -fx-padding: 15px;
+    -fx-background-radius: 11 11 0 0;
+    -fx-border-color: transparent transparent rgba(168, 85, 247, 0.3) transparent;
+    -fx-border-width: 0 0 1 0;
+
+    /* İçindeki yazı ayarı */
+    -fx-text-fill: #d8b4fe;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* --- SÜTUN BAŞLIKLARI (Ortak) --- */
+.column-header {
+    -fx-padding: 10px 15px;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent rgba(255,255,255,0.1) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.column-header .label {
+    -fx-text-fill: #94a3b8; /* Slate-400 */
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+/* Kartların içindeki küçük başlık (Toplam Takım vb.) */
+.card-title {
+    -fx-text-fill: #a1a1aa; /* Gri renk (Zinc-400) */
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+/* Sayfa Ana Başlığı (Gösterge Paneli Yazısı) */
+.page-title {
+    -fx-text-fill: #f1f5f9; /* Parlak Beyaz (Slate-100) */
+    -fx-font-size: 26px;    /* Büyük puntolar */
+    -fx-font-weight: bold;  /* Kalın yazı */
+    -fx-padding: 0 0 20 0;  /* Altındaki kartlarla arasına boşluk koyar */
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 2); /* Hafif gölge */
+}
+/* Tablo Sütun Başlık Yazıları (Ev Sahibi, Deplasman, Maç Tarihi) */
+.column-label {
+    -fx-text-fill: #94a3b8; /* Gri/Slate rengi */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;  /* Kalın yazı */
+}
+/* Metin Giriş Kutuları (TextField) */
+.text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.05); /* Çok hafif şeffaf */
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: gray;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.text-field:focused {
+    -fx-border-color: #38bdf8; /* Tıklayınca mavi olsun */
+}
+
+/* Takım Ekle (Mavi) - YENİ */
+.btn-primary {
+    -fx-background-color: #0ea5e9;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    /* Hafif gölge */
+    -fx-effect: dropshadow(three-pass-box, rgba(14, 165, 233, 0.3), 10, 0, 0, 3);
+}
+.btn-primary:hover { -fx-background-color: #0284c7; }
+
+/* Takımı Sil (Kırmızı) - YENİ */
+.btn-danger {
+    -fx-background-color: #be123c;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    /* Hafif gölge */
+    -fx-effect: dropshadow(three-pass-box, rgba(190, 18, 60, 0.3), 10, 0, 0, 3);
+}
+.btn-danger:hover { -fx-background-color: #9f1239; }
+.btn-danger:hover { -fx-background-color: #9f1239; }
+/* Metin Giriş Kutuları (TextField) - GÜNCELLENMİŞ HALİ */
+.text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.08); /* Biraz daha belirgin zemin */
+    -fx-text-fill: white;             /* Yazdığın yazı beyaz olsun */
+    -fx-prompt-text-fill: #94a3b8;    /* "Şehir giriniz" yazısı açık gri olsun */
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 0 15 0 15;           /* ÖNEMLİ: Yazıyı kenarlardan uzaklaştırır */
+    -fx-font-size: 14px;              /* Yazı boyutu ideal */
+
+}
+
+.text-field:focused {
+    -fx-border-color: #38bdf8;        /* Tıklayınca parlayan mavi kenar */
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* TextField'ları Şişir */
+.text-field {
+    -fx-pref-height: 45px; /* Yükseklik artırıldı */
+    -fx-font-size: 14px;
+}
+
+/* Panellere İç Boşluk (SceneBuilder'dan yapamazsan buradan zorla) */
+.card-panel { /* Sağ ve sol ana VBox'larına bu class'ı ver */
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+.btn-fixture {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #06b6d4);
+    -fx-text-fill: white;
+    -fx-background-radius: 30;
+    -fx-padding: 10 40 10 40; /* Biraz daha zarif boyutlar */
+    -fx-cursor: hand;
+
+    /* DÜZELTİLEN KISIM: */
+    /* Opaklık 0.7 -> 0.4'e, Radius 25 -> 12'ye düştü */
+    -fx-effect: dropshadow(three-pass-box, rgba(6, 182, 212, 0.4), 12, 0.1, 0, 4);
+}
+
+.btn-fixture:hover {
+    /* Üzerine gelince biraz parlasın ama kör etmesin */
+    -fx-effect: dropshadow(three-pass-box, rgba(6, 182, 212, 0.6), 18, 0.2, 0, 4);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+/* =========================================
+   SCROLL PANE (KAYDIRMA) AYARLARI
+   ========================================= */
+
+/* 1. Arka planı tamamen şeffaf yap */
+.modern-scroll {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* ScrollPane'in içindeki içerik alanı (Viewport) da şeffaf olsun */
+.modern-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* 2. Kaydırma Çubuğu (Scroll Bar) Tasarımı */
+.modern-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent; /* Çubuğun arkası şeffaf */
+    -fx-pref-width: 8px; /* Çok ince, zarif bir çubuk */
+}
+
+/* Çubuğun kendisi (Hareket eden parça - Thumb) */
+.modern-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(56, 189, 248, 0.3); /* Silik neon mavi */
+    -fx-background-radius: 10;
+}
+
+/* Üzerine gelince çubuk parlasın */
+.modern-scroll .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(56, 189, 248, 0.8); /* Parlak mavi */
+}
+
+/* Yukarı/Aşağı ok tuşlarını gizle (Modern görünümde gerek yok) */
+.modern-scroll .scroll-bar:vertical .increment-button,
+.modern-scroll .scroll-bar:vertical .decrement-button {
+    -fx-visible: false;
+    -fx-pref-height: 0;
+}
