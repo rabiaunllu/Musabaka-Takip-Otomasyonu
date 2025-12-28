@@ -31,7 +31,7 @@ public class LiveMatchController {
     @FXML private Button btnDurdur;
 
     private Match currentMatch;
-    private int minutes = 0;
+    private int matchSeconds = 0;
     private int homeScore = 0;
     private int awayScore = 0;
     private Timeline timeline;
@@ -43,13 +43,15 @@ public class LiveMatchController {
         startPulseAnimation();
         loadNextMatch();
         
-        // Timer Setup
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), e -> { // 0.2s = 1 aimulated minute (fast)
-            minutes++;
+        // Timer Setup: Run every 11 milliseconds (~90 mins in 1 real minute)
+        timeline = new Timeline(new KeyFrame(Duration.millis(11), e -> {
+            matchSeconds++;
             updateTimeLabel();
-            if (minutes >= 90) {
+            
+            // Auto-pause at 45:00 (2700 seconds) and 90:00 (5400 seconds)
+            if (matchSeconds == 2700 || matchSeconds == 5400) {
                 handleStopTimer();
-                lblSure.setText("90:00 +");
+                logEvent(matchSeconds == 2700 ? "İlk Yarı Bitti" : "Normal Süre Bitti", INFO_COLOR);
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -73,7 +75,7 @@ public class LiveMatchController {
         awayTeamLabel.setText(currentMatch.getAwayTeam().getName());
         homeScore = 0;
         awayScore = 0;
-        minutes = 0;
+        matchSeconds = 0;
         updateScoreLabels();
         updateTimeLabel();
         eventsContainer.getChildren().clear();
@@ -93,11 +95,17 @@ public class LiveMatchController {
     }
 
     private void updateTimeLabel() {
+        int mins = matchSeconds / 60;
+        int secs = matchSeconds % 60;
+        String timeStr = String.format("%02d:%02d", mins, secs);
+
         if (lblSure != null) {
-            lblSure.setText(String.format("%02d:00", minutes));
+            lblSure.setText(timeStr);
         }
-        // Also update matchTimeLabel if needed (top badge)
-        // matchTimeLabel.setText("CANLI - " + minutes + "'");
+        
+        if (matchTimeLabel != null) {
+            matchTimeLabel.setText("CANLI - " + timeStr);
+        }
     }
 
     private void updateScoreLabels() {
@@ -107,12 +115,19 @@ public class LiveMatchController {
 
     @FXML
     public void handleStartTimer() {
-        if (!isTimerRunning && minutes < 90 && currentMatch != null) {
+        // Allow start if timer not running. 
+        // 90+ can continue (overtime simulation logic or just keep running)
+        if (!isTimerRunning && currentMatch != null) {
             timeline.play();
             isTimerRunning = true;
             btnBaslat.setDisable(true);
             btnDurdur.setDisable(false);
-            logEvent("Maç Başladı!", INFO_COLOR); // Assuming logic or string helper
+            
+            if (matchSeconds == 0) {
+                logEvent("Maç Başladı!", INFO_COLOR);
+            } else {
+                logEvent("Maç Devam Ediyor...", INFO_COLOR);
+            }
         }
     }
 
@@ -181,9 +196,10 @@ public class LiveMatchController {
         // Save result
         currentMatch.setHomeScore(homeScore);
         currentMatch.setAwayScore(awayScore);
-        currentMatch.setPlayed(true); // Mark as played
-        
-        showAlert("Maç Bitti", "Maç sonucu kaydedildi: " + homeScore + " - " + awayScore);
+        currentMatch.setPlayed(true);
+        DataStore.getInstance().saveData();
+
+        showAlert("Maç Bitti", "Sonuç: " + homeScore + " - " + awayScore + "\nVeritabanına kaydedildi.");
         
         // Load next
         loadNextMatch();
@@ -197,7 +213,8 @@ public class LiveMatchController {
         row.setStyle("-fx-background-color: rgba(30, 41, 59, 0.8); -fx-border-color: rgba(51, 65, 85, 1); -fx-background-radius: 5; -fx-border-radius: 5; -fx-padding: 10;");
         row.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         
-        Label timeLbl = new Label(minutes + "'");
+        int mins = matchSeconds / 60; // Calculate minutes from seconds
+        Label timeLbl = new Label(mins + "'");
         timeLbl.setMinWidth(30);
         timeLbl.setStyle("-fx-text-fill: #22d3ee; -fx-font-weight: bold;");
         

@@ -3,7 +3,8 @@ package com.example.leaguemanager.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Match {
+public class Match implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
     private Team homeTeam;
     private Team awayTeam;
     private int homeScore;

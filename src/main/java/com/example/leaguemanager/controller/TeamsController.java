@@ -73,6 +73,7 @@ public class TeamsController {
 
         Team newTeam = new Team(name, city, stadium);
         DataStore.getInstance().getTeams().add(newTeam);
+        DataStore.getInstance().saveData();
         clearFields();
     }
 
@@ -81,6 +82,7 @@ public class TeamsController {
         Team selectedTeam = teamsTable.getSelectionModel().getSelectedItem();
         if (selectedTeam != null) {
             DataStore.getInstance().getTeams().remove(selectedTeam);
+            DataStore.getInstance().saveData();
             clearFields();
         } else {
             showAlert("Uyarı", "Lütfen silinecek bir takım seçiniz.");
@@ -89,6 +91,15 @@ public class TeamsController {
 
     @FXML
     private void handleGenerateFixtures() {
+        // Navigasyondan önce fikstürü oluştur
+        boolean success = com.example.leaguemanager.model.DataStore.getInstance().generateFixedFixtures();
+        
+        if (success) {
+            showAlert("Bilgi", "Fikstür oluşturuldu, yönlendiriliyorsunuz...");
+        } else {
+             showAlert("Uyarı", "Fikstür oluşturulamadı (Yetersiz takım). Yine de yönlendiriliyorsunuz.");
+        }
+
         if (MainController.getInstance() != null) {
             MainController.getInstance().showFixtures();
         } else {

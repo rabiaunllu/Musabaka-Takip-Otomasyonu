@@ -113,10 +113,10 @@
                                           </HBox>
                                       </VBox>
                               <Label style="-fx-text-fill: #22d3ee;" text="Kırmızı Kart Ekle" />
-                              <HBox prefHeight="2.0" prefWidth="248.0" spacing="10.0">
+                              <HBox alignment="CENTER" prefHeight="2.0" prefWidth="248.0" spacing="10.0">
                                  <children>
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAddHomeRedCard" prefHeight="23.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to right, #e7000b,#e60076); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Ev Sahibi Kart" />
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAddAwayRedCard" prefHeight="23.0" prefWidth="119.0" style="-fx-background-color: linear-gradient(to right, #e7000b,#e60076); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Deplasman Kart" />
+                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAddHomeRedCard" prefHeight="23.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to right, #e7000b,#e60076); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Ev Sahibi Kırmızı" HBox.hgrow="ALWAYS" />
+                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAddAwayRedCard" prefHeight="23.0" prefWidth="119.0" style="-fx-background-color: linear-gradient(to right, #e7000b,#e60076); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Deplasman Kırmızı" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
       

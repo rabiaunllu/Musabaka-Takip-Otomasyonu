@@ -90,110 +90,13 @@ public class FixturesController {
     }
 
     private void generateFixtures() {
-        ObservableList<Team> teams = DataStore.getInstance().getTeams();
+        boolean success = DataStore.getInstance().generateFixedFixtures();
         
-        if (teams.isEmpty() || teams.size() < 2) {
+        if (!success) {
             showAlert("Yetersiz Takım", "Fikstür oluşturmak için en az 2 takım gereklidir.");
             return;
         }
 
-        // Eğer maçlar zaten varsa uyar, üzerine yaz veya temizle
-        if (!DataStore.getInstance().getMatches().isEmpty()) {
-             // Basitlik için direkt temizliyoruz, gerçek uygulamada onay istenebilir
-             DataStore.getInstance().getMatches().clear();
-        }
-
-        List<Team> teamList = new ArrayList<>(teams);
-        
-        // Takım sayısı tek ise BAY (Dummy) takımı ekle
-        if (teamList.size() % 2 != 0) {
-            teamList.add(new Team("BAY", "-", "-"));
-        }
-
-        int numTeams = teamList.size();
-        int numRounds = (numTeams - 1) * 2; // Çift devre (League format)
-        int matchesPerRound = numTeams / 2;
-
-        List<Match> allMatches = new ArrayList<>();
-        
-        // Round Robin Algoritması
-        // İlk yarı
-        for (int round = 0; round < numTeams - 1; round++) {
-            for (int matchIdx = 0; matchIdx < matchesPerRound; matchIdx++) {
-                int homeIdx = (round + matchIdx) % (numTeams - 1);
-                int awayIdx = (numTeams - 1 - matchIdx + round) % (numTeams - 1);
-
-                // Son takım (sabit) için özel durum - döngüsel kaydırma dışı
-                if (matchIdx == 0) {
-                    awayIdx = numTeams - 1;
-                }
-
-                Team home = teamList.get(homeIdx);
-                Team away = teamList.get(awayIdx);
-
-                // "BAY" takımı içeren maçları atla veya ekle (genelde listelenmez ama hafta boş geçer)
-                // Burada "BAY" olan maçları da oluşturuyoruz ama UI'da filtreleyebiliriz ya da "BAY" diye gösterebiliriz.
-                // Kullanıcı isteğine göre "BAY" takımını gizleyebiliriz ama algoritma için gerekli.
-                // Eğer takımlardan biri "BAY" ise, diğer takım o hafta maç yapmaz.
-                
-                // Ev sahibi/Deplasman dengesi için round tek/çift kontrolü (daha iyi dağılım için)
-                if (matchIdx == 0 && round % 2 == 1) {
-                    // Swap to balance home/away for the fixed team
-                    Team temp = home;
-                    home = away;
-                    away = temp;
-                }
-
-                // Hafta numarası: round + 1
-                int currentWeek = round + 1;
-                
-                // Maç tarihi (Basitçe her hafta 1 hafta sonrasına)
-                // Başlangıç: Bugün + (Hafta-1)*7 gün
-                LocalDateTime matchDate = LocalDateTime.now().plusDays((currentWeek - 1) * 7);
-
-                // BAY kontrolü (İsteğe bağlı: isPlayed true/false veya özel statü)
-                // Şimdilik normal maç gibi ekliyoruz, ismi "BAY" olacak.
-                
-                allMatches.add(new Match(home, away, matchDate, currentWeek));
-            }
-        }
-
-        // İkinci yarı (Rövanş)
-        for (int round = 0; round < numTeams - 1; round++) {
-            for (int matchIdx = 0; matchIdx < matchesPerRound; matchIdx++) {
-                // İlk yarıdaki maçları bulup tersini alacağız aslında ama
-                // Algoritmayı tekrar çalıştırmak yerine ilk yarı mantığını ters çevirebiliriz.
-                // Veya yukarıdaki döngüyü tekrar edip home/away swap yapabiliriz.
-                
-                // Basit yol: Yukarıdaki mantığı kopyala ama home/away yer değiştir ve hafta + (numTeams-1)
-                
-                int homeIdx = (round + matchIdx) % (numTeams - 1);
-                int awayIdx = (numTeams - 1 - matchIdx + round) % (numTeams - 1);
-
-                if (matchIdx == 0) {
-                    awayIdx = numTeams - 1;
-                }
-
-                Team home = teamList.get(homeIdx);
-                Team away = teamList.get(awayIdx);
-
-                if (matchIdx == 0 && round % 2 == 1) {
-                    Team temp = home;
-                    home = away;
-                    away = temp;
-                }
-
-                // Rövanş: Ev sahibi ve deplasman yer değiştirir
-                int secondHalfWeek = (round + 1) + (numTeams - 1);
-                LocalDateTime matchDate = LocalDateTime.now().plusDays((secondHalfWeek - 1) * 7);
-                
-                allMatches.add(new Match(away, home, matchDate, secondHalfWeek));
-            }
-        }
-
-        // Maçları DataStore'a ve UI'a ekle
-        DataStore.getInstance().getMatches().addAll(allMatches);
-        
         refreshWeekSelector();
         weekSelector.getSelectionModel().selectFirst(); // Hafta 1'i seç
         
