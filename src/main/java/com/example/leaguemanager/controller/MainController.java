@@ -26,11 +26,36 @@ public class MainController {
     private javafx.scene.control.Button btnTable;
     @FXML
     private javafx.scene.control.Button btnLive;
+    @FXML
+    private javafx.scene.control.Button userBadge;
 
     @FXML
     public void initialize() {
         instance = this;
         showDashboard();
+        
+        // Display Current User Badge
+        com.example.leaguemanager.model.User current = com.example.leaguemanager.model.DataStore.getInstance().getCurrentUser();
+        if (current != null) {
+            if (current.getRole().name().equals("USER")) {
+                btnLive.setVisible(false);
+                btnLive.setManaged(false); // Remove space too
+            }
+            
+            String roleText = "Kullanıcı";
+            String color = "#64748b"; // Gray for USER
+
+            if (current.getRole() == com.example.leaguemanager.model.User.Role.ADMIN) {
+                roleText = "Yönetici";
+                color = "#0ea5e9"; // Blue for ADMIN
+            } else if (current.getRole() == com.example.leaguemanager.model.User.Role.DEVELOPER) {
+                roleText = "Geliştirici";
+                color = "#8b5cf6"; // Purple for DEVELOPER
+            }
+            
+            userBadge.setText(roleText + ": " + current.getUsername());
+            userBadge.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold;");
+        }
     }
 
     @FXML
@@ -61,6 +86,21 @@ public class MainController {
     public void showLiveMatch() {
         loadPage("CanliMac.fxml");
         setActiveButton(btnLive);
+    }
+
+    @FXML
+    public void handleLogout() {
+        com.example.leaguemanager.model.DataStore.getInstance().logout();
+        try {
+            javafx.stage.Stage stage = (javafx.stage.Stage) userBadge.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/leaguemanager/Login.fxml"));
+            javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 1100, 800);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setTitle("Lig Yöneticisi - Giriş");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private void setActiveButton(javafx.scene.control.Button activeButton) {

@@ -40,7 +40,7 @@
                               </TableView>
                            </children>
                         </VBox>
-                        <VBox minWidth="350.0" prefHeight="150.0" prefWidth="350.0" spacing="10.0" HBox.hgrow="NEVER">
+                        <VBox fx:id="detailsPanel" minWidth="350.0" prefHeight="150.0" prefWidth="350.0" spacing="10.0" HBox.hgrow="NEVER">
                            <styleClass>
                               <String fx:value="table-container" />
                               <String fx:value="purple-table" />

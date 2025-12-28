@@ -26,7 +26,6 @@ public class FixturesController {
     @FXML private TableColumn<Match, String> scoreColumn;
     @FXML private TableColumn<Match, String> awayTeamColumn;
     @FXML private TableColumn<Match, String> dateColumn;
-    @FXML private TableColumn<Match, Void> actionsColumn;
     @FXML private Button createFixtureBtn;
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -43,6 +42,11 @@ public class FixturesController {
             weekSelector.getSelectionModel().selectFirst();
             // Manuel tetikleme gerekebilir
             filterMatchesByWeek(weekSelector.getValue());
+        }
+
+        if (DataStore.getInstance().getCurrentUser() != null &&
+            DataStore.getInstance().getCurrentUser().getRole() == com.example.leaguemanager.model.User.Role.USER) {
+            createFixtureBtn.setVisible(false);
         }
 
         createFixtureBtn.setOnAction(event -> generateFixtures());

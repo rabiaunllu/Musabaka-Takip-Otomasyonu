@@ -26,6 +26,7 @@ public class LiveMatchController {
     @FXML private Label matchTimeLabel; // Top header time label if exists, else we use Pulse Label or update title
     @FXML private Circle livePulseCircle;
     @FXML private VBox eventsContainer;
+    @FXML private VBox adminControlsArea;
     
     @FXML private Button btnBaslat;
     @FXML private Button btnDurdur;
@@ -43,15 +44,37 @@ public class LiveMatchController {
         startPulseAnimation();
         loadNextMatch();
         
-        // Timer Setup: Run every 11 milliseconds (~90 mins in 1 real minute)
-        timeline = new Timeline(new KeyFrame(Duration.millis(11), e -> {
+        // Role-based Visibility
+        if (DataStore.getInstance().getCurrentUser() != null &&
+            DataStore.getInstance().getCurrentUser().getRole() == com.example.leaguemanager.model.User.Role.USER) {
+            adminControlsArea.setVisible(false);
+        }
+
+        // Role-based Timer Speed
+        Duration tickDuration = Duration.seconds(1); // Default: 90 mins = 90 real seconds
+        if (DataStore.getInstance().getCurrentUser() != null &&
+            DataStore.getInstance().getCurrentUser().getRole() == com.example.leaguemanager.model.User.Role.DEVELOPER) {
+            // Developer speed: 90 mins in 60s -> 666ms per game-minute. 
+            // Our logic ticks every game-second, so 666ms / 60 = 11.1ms.
+            tickDuration = Duration.millis(11); 
+        }
+
+        timeline = new Timeline(new KeyFrame(tickDuration, e -> {
             matchSeconds++;
             updateTimeLabel();
             
-            // Auto-pause at 45:00 (2700 seconds) and 90:00 (5400 seconds)
-            if (matchSeconds == 2700 || matchSeconds == 5400) {
+            // Advanced Rules (Pauses at 45, 90, 105. Finish at 120)
+            if (matchSeconds == 2700) { // 45:00
                 handleStopTimer();
-                logEvent(matchSeconds == 2700 ? "İlk Yarı Bitti" : "Normal Süre Bitti", INFO_COLOR);
+                logEvent("Devre Arası (45:00)", INFO_COLOR);
+            } else if (matchSeconds == 5400) { // 90:00
+                handleStopTimer();
+                logEvent("Normal Süre Bitti (90:00)", INFO_COLOR);
+            } else if (matchSeconds == 6300) { // 105:00
+                handleStopTimer();
+                logEvent("Uzatma Devre Arası (105:00)", INFO_COLOR);
+            } else if (matchSeconds == 7200) { // 120:00
+                handleEndMatch(); // Auto-finish
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);

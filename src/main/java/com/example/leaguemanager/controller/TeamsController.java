@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 public class TeamsController {
 
@@ -34,6 +35,8 @@ public class TeamsController {
     private Button btnDelete;
     @FXML
     private Button btnGenerateFixtures;
+    @FXML
+    private VBox detailsPanel;
 
     @FXML
     public void initialize() {
@@ -58,6 +61,15 @@ public class TeamsController {
                 txtStadium.setText(newSelection.getStadium());
             }
         });
+
+        // Role-based UI restrictions
+        if (com.example.leaguemanager.model.DataStore.getInstance().getCurrentUser() != null &&
+            com.example.leaguemanager.model.DataStore.getInstance().getCurrentUser().getRole().name().equals("USER")) {
+            detailsPanel.setVisible(false);
+            detailsPanel.setManaged(false);
+            btnGenerateFixtures.setVisible(false);
+            btnGenerateFixtures.setManaged(false);
+        }
     }
 
     @FXML

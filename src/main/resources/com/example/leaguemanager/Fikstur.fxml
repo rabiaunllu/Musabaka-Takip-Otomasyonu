@@ -68,11 +68,6 @@
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="actionsColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="İşlemler">
-                                    <styleClass>
-                                        <String fx:value="column-header" />
-                                    </styleClass>
-                                </TableColumn>
                             </columns>
 
                             <columnResizePolicy>
