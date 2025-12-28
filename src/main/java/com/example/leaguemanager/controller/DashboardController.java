@@ -34,13 +34,28 @@ public class DashboardController {
         totalTeamsLabel.setText(String.valueOf(store.getTeams().size()));
         totalMatchesLabel.setText(String.valueOf(store.getMatches().size()));
         
-        // Calculate Current Week (Max week of played matches + 1, or 1)
-        int maxPlayedWeek = store.getMatches().stream()
-                .filter(Match::isPlayed)
-                .mapToInt(Match::getWeek)
-                .max()
-                .orElse(0); 
-        currentWeekLabel.setText(String.valueOf(maxPlayedWeek + 1));
+        // Calculate Current Week (First week with unplayed matches)
+        int currentWeek = 1;
+        if (!store.getMatches().isEmpty()) {
+            int maxWeek = store.getMatches().stream()
+                    .mapToInt(Match::getWeek)
+                    .max().orElse(0);
+
+            for (int w = 1; w <= maxWeek; w++) {
+                int finalW = w;
+                long totalMatchesInWeek = store.getMatches().stream().filter(m -> m.getWeek() == finalW).count();
+                long playedMatchesInWeek = store.getMatches().stream().filter(m -> m.getWeek() == finalW && m.isPlayed()).count();
+
+                if (playedMatchesInWeek < totalMatchesInWeek) {
+                    currentWeek = w;
+                    break;
+                } else if (w == maxWeek) {
+                    // All matches played
+                    currentWeek = maxWeek; // Or maxWeek + 1 if you want to say "Finished"
+                }
+            }
+        }
+        currentWeekLabel.setText(String.valueOf(currentWeek));
 
         // 2. Upcoming Matches Tables
         populateUpcomingMatches(store.getMatches());
