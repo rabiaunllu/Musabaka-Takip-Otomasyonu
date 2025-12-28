@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.LeagueTableController">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.LigTablosuController">
     <children>
 
         <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -29,7 +29,7 @@
 
                         <Region HBox.hgrow="ALWAYS" />
 
-                        <Button fx:id="refreshButton" mnemonicParsing="false" styleClass="btn-primary" text="Yenile">
+                        <Button fx:id="btnYenile" mnemonicParsing="false" styleClass="btn-primary" text="Yenile">
                             <padding>
                                 <Insets bottom="8.0" left="25.0" right="25.0" top="8.0" />
                             </padding>
@@ -49,63 +49,63 @@
                             </children>
                         </HBox>
 
-                        <TableView fx:id="leagueTable" styleClass="modern-scroll" stylesheets="@style.css" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tblLigTablosu" styleClass="modern-scroll" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="posColumn" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" style="-fx-alignment: CENTER;" text="Sıra">
+                                <TableColumn fx:id="colSira" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" style="-fx-alignment: CENTER;" text="Sıra">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="teamColumn" prefWidth="250.0" text="Takım">
+                                <TableColumn fx:id="colTakim" prefWidth="250.0" text="Takım">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="playedColumn" prefWidth="60.0" style="-fx-alignment: CENTER;" text="O">
+                                <TableColumn fx:id="colOynanan" prefWidth="60.0" style="-fx-alignment: CENTER;" text="O">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="wonColumn" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #4ade80;" text="G">
+                                <TableColumn fx:id="colGalibiyet" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #4ade80;" text="G">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="drawColumn" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #facc15;" text="B">
+                                <TableColumn fx:id="colBeraberlik" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #facc15;" text="B">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="lostColumn" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #f87171;" text="M">
+                                <TableColumn fx:id="colMaglubiyet" prefWidth="60.0" style="-fx-alignment: CENTER; -fx-text-fill: #f87171;" text="M">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="gfColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="AG">
+                                <TableColumn fx:id="colAtilanGol" prefWidth="70.0" style="-fx-alignment: CENTER;" text="AG">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="gaColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="YG">
+                                <TableColumn fx:id="colYenenGol" prefWidth="70.0" style="-fx-alignment: CENTER;" text="YG">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="gdColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="AV">
+                                <TableColumn fx:id="colAveraj" prefWidth="70.0" style="-fx-alignment: CENTER;" text="AV">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="pointsColumn" prefWidth="80.0" style="-fx-alignment: CENTER;" text="P">
+                                <TableColumn fx:id="colPuan" prefWidth="80.0" style="-fx-alignment: CENTER;" text="P">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>

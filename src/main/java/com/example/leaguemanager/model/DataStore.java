@@ -3,232 +3,231 @@ package com.example.leaguemanager.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
+// Verilerin saklandığı ve yönetildiği sınıf (Veri Deposu)
 public class DataStore {
-    private static DataStore instance;
+    // Singleton deseni
+    private static DataStore ornek;
 
-    private ObservableList<Team> teams;
-    private ObservableList<Match> matches;
+    private ObservableList<Takim> takimlar;
+    private ObservableList<Mac> maclar;
+    private ObservableList<Kullanici> kullanicilar;
+    private Kullanici mevcutKullanici;
 
-    private static final String DATA_FILE = "league_data.dat";
+    private static final String VERI_DOSYASI = "league_data.dat";
+    private static final String OTURUM_DOSYASI = "session.dat";
 
-    private ObservableList<User> users;
-    private User currentUser;
-    private static final String SESSION_FILE = "session.dat";
-
-    // ... existing constructor ...
     private DataStore() {
-        teams = FXCollections.observableArrayList();
-        matches = FXCollections.observableArrayList();
-        users = FXCollections.observableArrayList();
+        takimlar = FXCollections.observableArrayList();
+        maclar = FXCollections.observableArrayList();
+        kullanicilar = FXCollections.observableArrayList();
         
-        loadData(); // Load data
+        veriyiYukle();
         
-        // Ensure default users exist if empty
-        if (users.isEmpty()) {
-            users.add(new User("admin", "123", User.Role.ADMIN));
-            users.add(new User("dev", "123", User.Role.DEVELOPER));
-            users.add(new User("user", "123", User.Role.USER));
-            saveData(); // Save new users
+        if (kullanicilar.isEmpty()) {
+            kullanicilar.add(new Kullanici("admin", "123", Kullanici.Role.ADMIN));
+            kullanicilar.add(new Kullanici("dev", "123", Kullanici.Role.DEVELOPER));
+            kullanicilar.add(new Kullanici("user", "123", Kullanici.Role.USER));
+            veriyiKaydet();
         }
     }
 
-    public static synchronized DataStore getInstance() {
-        if (instance == null) {
-            instance = new DataStore();
+    public static DataStore getInstance() {
+        if (ornek == null) {
+            ornek = new DataStore();
         }
-        return instance;
+        return ornek;
     }
 
-    public ObservableList<User> getUsers() {
-        return users;
+    // Getter ve Setterlar
+    public ObservableList<Kullanici> kullanicilariGetir() {
+        return kullanicilar;
     }
 
-    public ObservableList<Team> getTeams() {
-        return teams;
+    public ObservableList<Takim> takimlariGetir() {
+        return takimlar;
     }
 
-    public ObservableList<Match> getMatches() {
-        return matches;
+    public ObservableList<Mac> maclariGetir() {
+        return maclar;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public Kullanici mevcutKullaniciyiGetir() {
+        return mevcutKullanici;
     }
 
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
+    public void mevcutKullaniciAyarla(Kullanici kullanici) {
+        this.mevcutKullanici = kullanici;
     }
 
-    // --- Persistence Methods ---
+    // --- Dosya İşlemleri ---
 
-    public void saveData() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
-            oos.writeObject(new java.util.ArrayList<>(teams));
-            oos.writeObject(new java.util.ArrayList<>(matches));
-            oos.writeObject(new java.util.ArrayList<>(users)); // Save users too
-            System.out.println("Data saved successfully.");
+    public void veriyiKaydet() {
+        try {
+            FileOutputStream fos = new FileOutputStream(VERI_DOSYASI);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            
+            oos.writeObject(new ArrayList<>(takimlar));
+            oos.writeObject(new ArrayList<>(maclar));
+            oos.writeObject(new ArrayList<>(kullanicilar));
+            
+            oos.close();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error saving data: " + e.getMessage());
+            System.out.println("Veri kaydetme hatası: " + e.getMessage());
         }
     }
 
     @SuppressWarnings("unchecked")
-    public void loadData() {
-        File file = new File(DATA_FILE);
-        if (!file.exists()) {
-            System.out.println("Data file not found. Starting with empty/default data.");
-            return;
-        }
+    public void veriyiYukle() {
+        File dosya = new File(VERI_DOSYASI);
+        if (!dosya.exists()) return;
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            java.util.List<Team> loadedTeams = (java.util.List<Team>) ois.readObject();
-            java.util.List<Match> loadedMatches = (java.util.List<Match>) ois.readObject();
+        try {
+            FileInputStream fis = new FileInputStream(dosya);
+            ObjectInputStream ois = new ObjectInputStream(fis);
             
-            // Try reading users, handle legacy files without users
+            List<Takim> yuklenenTakimlar = (List<Takim>) ois.readObject();
+            List<Mac> yuklenenMaclar = (List<Mac>) ois.readObject();
+            
             try {
-                java.util.List<User> loadedUsers = (java.util.List<User>) ois.readObject();
-                users.setAll(loadedUsers);
-            } catch (EOFException | OptionalDataException e) {
-                System.out.println("Legacy data file detected (no users). Defaults will be created.");
+                List<Kullanici> yuklenenKullanicilar = (List<Kullanici>) ois.readObject();
+                kullanicilar.setAll(yuklenenKullanicilar);
+            } catch (Exception e) {
+                System.out.println("Eski veri dosyası.");
             }
 
-            teams.setAll(loadedTeams);
-            matches.setAll(loadedMatches);
-            System.out.println("Data loaded.");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            takimlar.setAll(yuklenenTakimlar);
+            maclar.setAll(yuklenenMaclar);
+            
+            ois.close();
+        } catch (Exception e) {
+            System.out.println("Veri yükleme hatası.");
         }
     }
 
-    // --- Session Management ---
+    // --- Oturum İşlemleri ---
 
-    public void saveSession(User user) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SESSION_FILE))) {
-            oos.writeObject(user);
-            System.out.println("Session saved for: " + user.getUsername());
+    public void oturumuKaydet(Kullanici kullanici) {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(OTURUM_DOSYASI));
+            oos.writeObject(kullanici);
+            oos.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Oturum kaydedilemedi.");
         }
     }
 
-    public User loadSession() {
-        File file = new File(SESSION_FILE);
-        if (!file.exists()) return null;
+    public Kullanici oturumuYukle() {
+        File dosya = new File(OTURUM_DOSYASI);
+        if (!dosya.exists()) return null;
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            User user = (User) ois.readObject();
-            if (user != null) {
-                // Validate if user still exists in our db (optional but good practice)
-                boolean exists = users.stream().anyMatch(u -> u.getUsername().equals(user.getUsername()));
-                if (exists) {
-                    this.currentUser = user;
-                    return user;
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dosya));
+            Kullanici kullanici = (Kullanici) ois.readObject();
+            ois.close();
+
+            if (kullanici != null) {
+                for (Kullanici u : kullanicilar) {
+                    if (u.getKullaniciAdi().equals(kullanici.getKullaniciAdi())) {
+                        this.mevcutKullanici = kullanici;
+                        return kullanici;
+                    }
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            // Invalid session or file error
-            System.out.println("Session load failed");
+        } catch (Exception e) {
+            System.out.println("Oturum yüklenemedi.");
         }
         return null;
     }
 
-    public void logout() {
-        this.currentUser = null;
-        File file = new File(SESSION_FILE);
-        if (file.exists()) {
-            file.delete();
+    public void cikisYap() {
+        this.mevcutKullanici = null;
+        File dosya = new File(OTURUM_DOSYASI);
+        if (dosya.exists()) {
+            dosya.delete();
         }
-        System.out.println("Logged out.");
     }
 
-
-    public void loadDummyData() {
-        teams.clear();
-        teams.add(new Team("Galatasaray", "İstanbul", "RAMS Park"));
-        teams.add(new Team("Fenerbahçe", "İstanbul", "Ülker Stadyumu"));
-        teams.add(new Team("Beşiktaş", "İstanbul", "Tüpraş Stadyumu"));
-        teams.add(new Team("Trabzonspor", "Trabzon", "Papara Park"));
-        teams.add(new Team("Başakşehir", "İstanbul", "Başakşehir Fatih Terim"));
-        teams.add(new Team("Adana Demirspor", "Adana", "Yeni Adana Stadyumu"));
+    public void ornekVerileriYukle() {
+        takimlar.clear();
+        takimlar.add(new Takim("Galatasaray", "İstanbul", "RAMS Park"));
+        takimlar.add(new Takim("Fenerbahçe", "İstanbul", "Ülker Stadyumu"));
+        takimlar.add(new Takim("Beşiktaş", "İstanbul", "Tüpraş Stadyumu"));
+        takimlar.add(new Takim("Trabzonspor", "Trabzon", "Papara Park"));
+        takimlar.add(new Takim("Başakşehir", "İstanbul", "Başakşehir Fatih Terim"));
+        takimlar.add(new Takim("Adana Demirspor", "Adana", "Yeni Adana Stadyumu"));
         
-        System.out.println("Dummy data loaded: " + teams.size() + " teams.");
-        saveData(); // Save after loading dummy
+        veriyiKaydet();
     }
 
-    public boolean generateFixedFixtures() {
-        if (teams.isEmpty() || teams.size() < 2) {
+    public boolean fiksturOlustur() {
+        if (takimlar.isEmpty() || takimlar.size() < 2) {
             return false;
         }
 
-        matches.clear();
-        java.util.List<Team> teamList = new java.util.ArrayList<>(teams);
+        maclar.clear();
+        List<Takim> takimList = new ArrayList<>(takimlar);
         
-        // Takım sayısı tek ise BAY (Dummy) takımı ekle
-        if (teamList.size() % 2 != 0) {
-            teamList.add(new Team("BAY", "-", "-"));
+        if (takimList.size() % 2 != 0) {
+            takimList.add(new Takim("BAY", "-", "-"));
         }
 
-        int numTeams = teamList.size();
-        int numRounds = (numTeams - 1) * 2; // Çift devre
-        int matchesPerRound = numTeams / 2;
-        java.util.List<Match> allMatches = new java.util.ArrayList<>();
+        int n = takimList.size();
+        int macSayisiHaftalik = n / 2;
         
-        // Round Robin Algoritması
-        // İlk yarı
-        for (int round = 0; round < numTeams - 1; round++) {
-            for (int matchIdx = 0; matchIdx < matchesPerRound; matchIdx++) {
-                int homeIdx = (round + matchIdx) % (numTeams - 1);
-                int awayIdx = (numTeams - 1 - matchIdx + round) % (numTeams - 1);
+        // İlk yarı fikstürü
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < macSayisiHaftalik; j++) {
+                int ev = (i + j) % (n - 1);
+                int dep = (n - 1 - j + i) % (n - 1);
 
-                if (matchIdx == 0) {
-                    awayIdx = numTeams - 1;
+                if (j == 0) {
+                    dep = n - 1;
                 }
 
-                Team home = teamList.get(homeIdx);
-                Team away = teamList.get(awayIdx);
+                Takim evSahibi = takimList.get(ev);
+                Takim deplasman = takimList.get(dep);
 
-                if (matchIdx == 0 && round % 2 == 1) {
-                    Team temp = home;
-                    home = away;
-                    away = temp;
+                if (j == 0 && i % 2 == 1) {
+                    Takim gecici = evSahibi;
+                    evSahibi = deplasman;
+                    deplasman = gecici;
                 }
 
-                int currentWeek = round + 1;
-                java.time.LocalDateTime matchDate = java.time.LocalDateTime.now().plusDays((currentWeek - 1) * 7);
-                allMatches.add(new Match(home, away, matchDate, currentWeek));
+                int hafta = i + 1;
+                java.time.LocalDateTime tarih = java.time.LocalDateTime.now().plusDays((hafta - 1) * 7);
+                maclar.add(new Mac(evSahibi, deplasman, tarih, hafta));
             }
         }
 
-        // İkinci yarı (Rövanş)
-        for (int round = 0; round < numTeams - 1; round++) {
-            for (int matchIdx = 0; matchIdx < matchesPerRound; matchIdx++) {
-                int homeIdx = (round + matchIdx) % (numTeams - 1);
-                int awayIdx = (numTeams - 1 - matchIdx + round) % (numTeams - 1);
+        // İkinci yarı fikstürü
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < macSayisiHaftalik; j++) {
+                int ev = (i + j) % (n - 1);
+                int dep = (n - 1 - j + i) % (n - 1);
 
-                if (matchIdx == 0) {
-                    awayIdx = numTeams - 1;
+                if (j == 0) {
+                    dep = n - 1;
                 }
 
-                Team home = teamList.get(homeIdx);
-                Team away = teamList.get(awayIdx);
+                Takim evSahibi = takimList.get(ev);
+                Takim deplasman = takimList.get(dep);
 
-                if (matchIdx == 0 && round % 2 == 1) {
-                    Team temp = home;
-                    home = away;
-                    away = temp;
+                if (j == 0 && i % 2 == 1) {
+                    Takim gecici = evSahibi;
+                    evSahibi = deplasman;
+                    deplasman = gecici;
                 }
 
-                int secondHalfWeek = (round + 1) + (numTeams - 1);
-                java.time.LocalDateTime matchDate = java.time.LocalDateTime.now().plusDays((secondHalfWeek - 1) * 7);
-                // Rövanş: Ev sahibi ve deplasman yer değiştirir
-                allMatches.add(new Match(away, home, matchDate, secondHalfWeek));
+                int hafta = (i + 1) + (n - 1);
+                java.time.LocalDateTime tarih = java.time.LocalDateTime.now().plusDays((hafta - 1) * 7);
+                maclar.add(new Mac(deplasman, evSahibi, tarih, hafta));
             }
         }
 
-        matches.addAll(allMatches);
-        saveData(); // Save generated fixtures
+        veriyiKaydet();
         return true;
     }
 }

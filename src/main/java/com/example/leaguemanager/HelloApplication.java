@@ -1,7 +1,7 @@
 package com.example.leaguemanager;
 
 import com.example.leaguemanager.model.DataStore;
-import com.example.leaguemanager.model.User;
+import com.example.leaguemanager.model.Kullanici;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,25 +9,34 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// Uygulamanın ana giriş sınıfı
 public class HelloApplication extends Application {
+    
     @Override
     public void start(Stage stage) throws IOException {
-        User savedUser = DataStore.getInstance().loadSession();
+        // Daha önceki oturumu yüklemeye çalış
+        Kullanici kayitliKullanici = DataStore.getInstance().oturumuYukle();
         
-        String fxmlFile = (savedUser != null) ? "MainLayout.fxml" : "Login.fxml";
-        String title = (savedUser != null) 
-            ? "Lig Yöneticisi - " + savedUser.getUsername() 
-            : "Lig Yöneticisi - Giriş";
+        String fxmlDosyasi = "Giris.fxml";
+        String baslik = "Süper Lig Otomasyonu - Giriş";
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxmlFile));
-        Scene scene = new Scene(fxmlLoader.load(), 1100, 800);
+        // Eğer oturum varsa direkt ana sayfaya git
+        if (kayitliKullanici != null) {
+            fxmlDosyasi = "MainLayout.fxml";
+            baslik = "Süper Lig Otomasyonu - " + kayitliKullanici.getKullaniciAdi();
+            DataStore.getInstance().mevcutKullaniciAyarla(kayitliKullanici);
+        }
+
+        // Ekranı yükle
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlDosyasi));
+        Scene scene = new Scene(loader.load(), 1100, 800);
         
-        stage.setTitle(title);
+        stage.setTitle(baslik);
         stage.setScene(scene);
         stage.show();
-        
-        if (savedUser != null) {
-            DataStore.getInstance().setCurrentUser(savedUser);
-        }
+    }
+
+    public static void main(String[] args) {
+        launch();
     }
 }

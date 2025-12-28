@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.FixturesController">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.FiksturController">
     <children>
 
         <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -26,7 +26,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="15.0">
                     <children>
                         <Label style="-fx-text-fill: #4ade80; -fx-font-weight: bold;" text="Hafta Seç:" />
-                        <ComboBox fx:id="weekSelector" prefWidth="150.0" promptText="Hafta 12" styleClass="combo-box" />
+                        <ComboBox fx:id="cmbHaftaSecici" prefWidth="150.0" promptText="Hafta 12" styleClass="combo-box" />
                     </children>
                     <VBox.margin>
                         <Insets bottom="10.0" />
@@ -38,31 +38,31 @@
 
                         <HBox style="-fx-background-color: linear-gradient(to right, rgba(20, 83, 45, 0.5), rgba(6, 78, 59, 0.5)); -fx-padding: 15; -fx-background-radius: 11 11 0 0; -fx-border-color: transparent transparent rgba(34, 197, 94, 0.3) transparent; -fx-border-width: 0 0 1 0;">
                             <children>
-                                <Label fx:id="weekHeaderLabel" style="-fx-text-fill: #86efac; -fx-font-size: 16px; -fx-font-weight: bold;" text="Hafta 12 Fikstürü" />
+                                <Label fx:id="lblHaftaBasligi" style="-fx-text-fill: #86efac; -fx-font-size: 16px; -fx-font-weight: bold;" text="Hafta 12 Fikstürü" />
                             </children>
                         </HBox>
 
-                        <TableView fx:id="fixturesTable" styleClass="modern-scroll" stylesheets="@style.css" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tblFikstur" styleClass="modern-scroll" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="homeTeamColumn" prefWidth="200.0" text="Ev Sahibi">
+                                <TableColumn fx:id="colEvSahibi" prefWidth="200.0" text="Ev Sahibi">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="scoreColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Skor">
+                                <TableColumn fx:id="colSkor" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Skor">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="awayTeamColumn" prefWidth="200.0" text="Deplasman">
+                                <TableColumn fx:id="colDeplasman" prefWidth="200.0" text="Deplasman">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="dateColumn" prefWidth="180.0" text="Maç Tarihi">
+                                <TableColumn fx:id="colTarih" prefWidth="180.0" text="Maç Tarihi">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
@@ -86,7 +86,7 @@
 
                 <HBox alignment="CENTER_LEFT">
                     <children>
-                        <Button fx:id="createFixtureBtn" mnemonicParsing="false" styleClass="btn-primary" text="Yeni Fikstür Oluştur">
+                        <Button fx:id="btnFiksturOlustur" mnemonicParsing="false" styleClass="btn-primary" text="Yeni Fikstür Oluştur">
                             <padding>
                                 <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                             </padding>

@@ -24,18 +24,18 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDashboard" text="Gösterge Paneli">
+            <Button fx:id="btnGostergePaneli" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#gostergePaneliniGoster" text="Gösterge Paneli">
                <styleClass>
                   <String fx:value="menu-button" />
                   <String fx:value="menu-button-active" />
                </styleClass>
             </Button>
-            <Button fx:id="btnTeams" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showTeams" styleClass="menu-button" text="Takımlar" />
-            <Button fx:id="btnFixtures" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showFixtures" styleClass="menu-button" text="Fikstür" />
-            <Button fx:id="btnTable" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showLeagueTable" styleClass="menu-button" text="Lig Tablosu" />
-            <Button fx:id="btnLive" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showLiveMatch" styleClass="menu-button" text="Canlı Maç" />
+            <Button fx:id="btnTakimlar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#takimlariGoster" styleClass="menu-button" text="Takımlar" />
+            <Button fx:id="btnFikstur" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#fiksturuGoster" styleClass="menu-button" text="Fikstür" />
+            <Button fx:id="btnLigTablosu" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ligTablosunuGoster" styleClass="menu-button" text="Lig Tablosu" />
+            <Button fx:id="btnCanliMac" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#canliMaciGoster" styleClass="menu-button" text="Canlı Maç" />
             <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="btnLogout" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogout" style="-fx-background-color: #ef4444; -fx-text-fill: white;" styleClass="menu-button" text="Çıkış Yap" />
+            <Button fx:id="btnLogout" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cikisYap" style="-fx-background-color: #ef4444; -fx-text-fill: white;" styleClass="menu-button" text="Çıkış Yap" />
          </children>
       </VBox>
    </left>
@@ -51,7 +51,7 @@
                </font>
             </Label>
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="userBadge" mnemonicParsing="false" style="-fx-background-color: #0ea5e9; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold;" styleClass="action-button" text="-" />
+            <Button fx:id="lblKullaniciRozeti" mnemonicParsing="false" style="-fx-background-color: #0ea5e9; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold;" styleClass="action-button" text="-" />
          </children>
       </HBox>
    </top>

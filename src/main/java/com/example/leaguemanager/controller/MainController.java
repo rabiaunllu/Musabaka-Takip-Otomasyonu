@@ -1,5 +1,7 @@
 package com.example.leaguemanager.controller;
 
+import com.example.leaguemanager.model.DataStore;
+import com.example.leaguemanager.model.Kullanici;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
@@ -7,93 +9,93 @@ import java.io.IOException;
 
 public class MainController {
 
-    private static MainController instance;
+    private static MainController ornek;
 
-    public static MainController getInstance() {
-        return instance;
+    public static MainController getOrnek() {
+        return ornek;
     }
 
     @FXML
     private AnchorPane anaIcerikAlani;
 
     @FXML
-    private javafx.scene.control.Button btnDashboard;
+    private javafx.scene.control.Button btnGostergePaneli;
     @FXML
-    private javafx.scene.control.Button btnTeams;
+    private javafx.scene.control.Button btnTakimlar;
     @FXML
-    private javafx.scene.control.Button btnFixtures;
+    private javafx.scene.control.Button btnFikstur;
     @FXML
-    private javafx.scene.control.Button btnTable;
+    private javafx.scene.control.Button btnLigTablosu;
     @FXML
-    private javafx.scene.control.Button btnLive;
+    private javafx.scene.control.Button btnCanliMac;
     @FXML
-    private javafx.scene.control.Button userBadge;
+    private javafx.scene.control.Button lblKullaniciRozeti;
 
     @FXML
     public void initialize() {
-        instance = this;
-        showDashboard();
+        ornek = this;
+        gostergePaneliniGoster();
         
-        // Display Current User Badge
-        com.example.leaguemanager.model.User current = com.example.leaguemanager.model.DataStore.getInstance().getCurrentUser();
-        if (current != null) {
-            if (current.getRole().name().equals("USER")) {
-                btnLive.setVisible(false);
-                btnLive.setManaged(false); // Remove space too
+        // Mevcut kullanıcı rozetini göster
+        Kullanici mevcutKullanici = DataStore.getInstance().mevcutKullaniciyiGetir();
+        if (mevcutKullanici != null) {
+            if (mevcutKullanici.getRol() == Kullanici.Role.USER) {
+                btnCanliMac.setVisible(false);
+                btnCanliMac.setManaged(false); // Alanı da kaldır
             }
             
-            String roleText = "Kullanıcı";
-            String color = "#64748b"; // Gray for USER
+            String rolMetni = "Kullanıcı";
+            String renk = "#64748b"; // USER için gri
 
-            if (current.getRole() == com.example.leaguemanager.model.User.Role.ADMIN) {
-                roleText = "Yönetici";
-                color = "#0ea5e9"; // Blue for ADMIN
-            } else if (current.getRole() == com.example.leaguemanager.model.User.Role.DEVELOPER) {
-                roleText = "Geliştirici";
-                color = "#8b5cf6"; // Purple for DEVELOPER
+            if (mevcutKullanici.getRol() == Kullanici.Role.ADMIN) {
+                rolMetni = "Yönetici";
+                renk = "#0ea5e9"; // ADMIN için mavi
+            } else if (mevcutKullanici.getRol() == Kullanici.Role.DEVELOPER) {
+                rolMetni = "Geliştirici";
+                renk = "#8b5cf6"; // DEVELOPER için mor
             }
             
-            userBadge.setText(roleText + ": " + current.getUsername());
-            userBadge.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold;");
+            lblKullaniciRozeti.setText(rolMetni + ": " + mevcutKullanici.getKullaniciAdi());
+            lblKullaniciRozeti.setStyle("-fx-background-color: " + renk + "; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold;");
         }
     }
 
     @FXML
-    public void showDashboard() {
-        loadPage("GosterimPaneli.fxml");
-        setActiveButton(btnDashboard);
+    public void gostergePaneliniGoster() {
+        sayfayıYukle("GosterimPaneli.fxml");
+        aktifButonuAyarla(btnGostergePaneli);
     }
 
     @FXML
-    public void showTeams() {
-        loadPage("Takimlar.fxml");
-        setActiveButton(btnTeams);
+    public void takimlariGoster() {
+        sayfayıYukle("Takimlar.fxml");
+        aktifButonuAyarla(btnTakimlar);
     }
 
     @FXML
-    public void showFixtures() {
-        loadPage("Fikstur.fxml");
-        setActiveButton(btnFixtures);
+    public void fiksturuGoster() {
+        sayfayıYukle("Fikstur.fxml");
+        aktifButonuAyarla(btnFikstur);
     }
 
     @FXML
-    public void showLeagueTable() {
-        loadPage("LigTablosu.fxml");
-        setActiveButton(btnTable);
+    public void ligTablosunuGoster() {
+        sayfayıYukle("LigTablosu.fxml");
+        aktifButonuAyarla(btnLigTablosu);
     }
 
     @FXML
-    public void showLiveMatch() {
-        loadPage("CanliMac.fxml");
-        setActiveButton(btnLive);
+    public void canliMaciGoster() {
+        sayfayıYukle("CanliMac.fxml");
+        aktifButonuAyarla(btnCanliMac);
     }
 
     @FXML
-    public void handleLogout() {
-        com.example.leaguemanager.model.DataStore.getInstance().logout();
+    public void cikisYap() {
+        DataStore.getInstance().cikisYap();
         try {
-            javafx.stage.Stage stage = (javafx.stage.Stage) userBadge.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/leaguemanager/Login.fxml"));
+            javafx.stage.Stage stage = (javafx.stage.Stage) lblKullaniciRozeti.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/leaguemanager/Giris.fxml"));
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 1100, 800);
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -103,43 +105,43 @@ public class MainController {
         }
     }
     
-    private void setActiveButton(javafx.scene.control.Button activeButton) {
-        // Reset all buttons to default style
-        resetButtonStyle(btnDashboard);
-        resetButtonStyle(btnTeams);
-        resetButtonStyle(btnFixtures);
-        resetButtonStyle(btnTable);
-        resetButtonStyle(btnLive);
+    private void aktifButonuAyarla(javafx.scene.control.Button aktifButon) {
+        // Tüm butonları varsayılan stile sıfırla
+        butonStiliniSifirla(btnGostergePaneli);
+        butonStiliniSifirla(btnTakimlar);
+        butonStiliniSifirla(btnFikstur);
+        butonStiliniSifirla(btnLigTablosu);
+        butonStiliniSifirla(btnCanliMac);
 
-        // Set active style for the clicked button
-        activeButton.getStyleClass().add("menu-button-active");
+        // Tıklanan butona aktif stilini uygula
+        aktifButon.getStyleClass().add("menu-button-active");
     }
 
-    private void resetButtonStyle(javafx.scene.control.Button button) {
-        if (button != null) {
-            button.getStyleClass().remove("menu-button-active");
-            if (!button.getStyleClass().contains("menu-button")) {
-                button.getStyleClass().add("menu-button");
+    private void butonStiliniSifirla(javafx.scene.control.Button buton) {
+        if (buton != null) {
+            buton.getStyleClass().remove("menu-button-active");
+            if (!buton.getStyleClass().contains("menu-button")) {
+                buton.getStyleClass().add("menu-button");
             }
         }
     }
 
-    private void loadPage(String fxmlFileName) {
+    private void sayfayıYukle(String fxmlDosyaAdi) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/leaguemanager/" + fxmlFileName));
-            AnchorPane view = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/leaguemanager/" + fxmlDosyaAdi));
+            AnchorPane gorunum = loader.load();
             
             // İçeriği eklemeden önce temizle
             anaIcerikAlani.getChildren().clear();
             
             // Yeni sayfayı ekle
-            anaIcerikAlani.getChildren().add(view);
+            anaIcerikAlani.getChildren().add(gorunum);
             
             // Sayfanın tüm alanı kaplamasını sağla
-            AnchorPane.setTopAnchor(view, 0.0);
-            AnchorPane.setBottomAnchor(view, 0.0);
-            AnchorPane.setLeftAnchor(view, 0.0);
-            AnchorPane.setRightAnchor(view, 0.0);
+            AnchorPane.setTopAnchor(gorunum, 0.0);
+            AnchorPane.setBottomAnchor(gorunum, 0.0);
+            AnchorPane.setLeftAnchor(gorunum, 0.0);
+            AnchorPane.setRightAnchor(gorunum, 0.0);
             
         } catch (IOException e) {
             e.printStackTrace();

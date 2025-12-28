@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="900.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.DashboardController">
+<AnchorPane prefHeight="800.0" prefWidth="900.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.GostergePaneliController">
    <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="modern-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -28,7 +28,7 @@
                         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="card-title" text="Toplam Takım" />
-                              <Label fx:id="totalTeamsLabel" text="0">
+                              <Label fx:id="lblToplamTakim" text="0">
                                  <styleClass>
                                     <String fx:value="card-number" />
                                     <String fx:value="text-mavi" />
@@ -43,7 +43,7 @@
                         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="card-title" text="Toplam Maç" />
-                              <Label fx:id="totalMatchesLabel" text="0">
+                              <Label fx:id="lblToplamMac" text="0">
                                  <styleClass>
                                     <String fx:value="card-number" />
                                     <String fx:value="text-pembe" />
@@ -58,7 +58,7 @@
                         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="card-title" text="Mevcut Hafta" />
-                              <Label fx:id="currentWeekLabel" text="1">
+                              <Label fx:id="lblMevcutHafta" text="1">
                                  <styleClass>
                                     <String fx:value="text-yesil" />
                                     <String fx:value="card-number" />
@@ -72,7 +72,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <VBox fx:id="upcomingMatchesContainer" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                  <VBox fx:id="vboxYaklasanMaclar" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                      <styleClass>
                         <String fx:value="table-container" />
                         <String fx:value="blue-table" />
@@ -91,7 +91,7 @@
                         <Insets left="15.0" />
                      </padding>
                   </VBox>
-                  <VBox fx:id="recentResultsContainer" layoutX="40.0" layoutY="239.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                  <VBox fx:id="vboxSonSonuclar" layoutX="40.0" layoutY="239.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                      <styleClass>
                         <String fx:value="table-container" />
                         <String fx:value="purple-table" />
