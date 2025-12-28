@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="main-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.leaguemanager.controller.MainController">
    <left>
-      <VBox prefHeight="200.0" prefWidth="220.0" spacing="15.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+      <VBox minWidth="220.0" maxWidth="220.0" prefHeight="200.0" prefWidth="220.0" spacing="15.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -24,16 +24,16 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Gösterge Paneli">
+            <Button fx:id="btnDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDashboard" text="Gösterge Paneli">
                <styleClass>
                   <String fx:value="menu-button" />
                   <String fx:value="menu-button-active" />
                </styleClass>
             </Button>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Takımlar" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Fikstür" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Lig Tablosu" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Canlı Maç" />
+            <Button fx:id="btnTeams" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showTeams" styleClass="menu-button" text="Takımlar" />
+            <Button fx:id="btnFixtures" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showFixtures" styleClass="menu-button" text="Fikstür" />
+            <Button fx:id="btnTable" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showLeagueTable" styleClass="menu-button" text="Lig Tablosu" />
+            <Button fx:id="btnLive" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showLiveMatch" styleClass="menu-button" text="Canlı Maç" />
          </children>
       </VBox>
    </left>
