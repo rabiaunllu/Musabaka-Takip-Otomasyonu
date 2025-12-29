@@ -37,6 +37,7 @@
                                   <children>
                                       <Circle fx:id="sinyalDairesi" fill="WHITE" radius="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                                       <Label fx:id="lblMacZamani" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" text="CANLI - 67'" />
+                                      <Label fx:id="lblUzatma" style="-fx-text-fill: #fbbf24; -fx-font-weight: bold; -fx-font-size: 14px;" text="+0" visible="false" />
                                   </children>
                               </HBox>
       
@@ -137,6 +138,14 @@
                                     <Button fx:id="btnDurdur" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#sureyiDurdur" prefHeight="23.0" prefWidth="119.0" style="-fx-background-color: linear-gradient(to right, #fc6303,#FF8105); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="D U R D U R" />
                                  </children>
                               </HBox>
+      
+                                       <VBox spacing="8.0">
+                                           <Label style="-fx-text-fill: #22d3ee; -fx-font-size: 14px;" text="Uzatma Süresi" />
+                                           <HBox spacing="10.0">
+                                               <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#uzatmaEkle" style="-fx-background-color: linear-gradient(to right, #3b82f6, #2563eb); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Dakika Ekle" HBox.hgrow="ALWAYS" />
+                                               <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#uzatmaSifirla" style="-fx-background-color: linear-gradient(to right, #64748b, #475569); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Sıfırla" HBox.hgrow="ALWAYS" />
+                                           </HBox>
+                                       </VBox>
       
                                       <Region VBox.vgrow="ALWAYS" />
       

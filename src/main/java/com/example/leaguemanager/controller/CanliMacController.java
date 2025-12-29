@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
@@ -26,6 +27,7 @@ public class CanliMacController {
     @FXML private Label lblDeplasmanSkor;
     @FXML private Label lblSure;
     @FXML private Label lblMacZamani;
+    @FXML private Label lblUzatma;
     @FXML private Circle sinyalDairesi;
     @FXML private VBox vboxOlaylar;
     @FXML private VBox vboxYoneticiKontrolleri;
@@ -39,10 +41,15 @@ public class CanliMacController {
     private int deplasmanSkor = 0;
     private Timeline zamanlayici;
     private boolean zamanlayiciCalisiyorMu = false;
+    private int uzatmaDakikasi = 0;
     private static final String BILGI_RENGI = "#cccccc";
+
+    private AudioClip düdükSesi;
+    private AudioClip bitisDüdükSesi;
 
     @FXML
     public void initialize() {
+        düdükSesiYukle();
         sinyalAnimasyonunuBaslat();
         siradakiMaciYukle();
         
@@ -64,17 +71,26 @@ public class CanliMacController {
             macSaniyesi++;
             sureEtiketiniGuncelle();
             
-            // Maç duraklatma kuralları (45, 90, 105. dakikalarda durdurma simülasyonu)
-            if (macSaniyesi == 2700) { // 45:00
+            int uzatmaSaniyesi = uzatmaDakikasi * 60;
+            
+            // Maç duraklatma kuralları (Uzatma dahil)
+            // Segment korumaları ekleyerek yüksek uzatma dakikalarının sonraki devrelerle karışmasını önlüyoruz.
+            if (macSaniyesi == 2700 + uzatmaSaniyesi && macSaniyesi < 3000) { // 1. Devre Sonu
                 sureyiDurdur();
-                olayKaydet("Devre Arası (45:00)", BILGI_RENGI);
-            } else if (macSaniyesi == 5400) { // 90:00
+                olayKaydet("Devre Arası (" + (45 + uzatmaDakikasi) + ":00)", BILGI_RENGI);
+                düdükÇal();
+                uzatmaSifirla();
+            } else if (macSaniyesi == 5400 + uzatmaSaniyesi && macSaniyesi >= 4500 && macSaniyesi < 6000) { // 2. Devre Sonu
                 sureyiDurdur();
-                olayKaydet("Normal Süre Bitti (90:00)", BILGI_RENGI);
-            } else if (macSaniyesi == 6300) { // 105:00
+                olayKaydet("Normal Süre Bitti (" + (90 + uzatmaDakikasi) + ":00)", BILGI_RENGI);
+                düdükÇal();
+                uzatmaSifirla();
+            } else if (macSaniyesi == 6300 + uzatmaSaniyesi && macSaniyesi >= 6000 && macSaniyesi < 7000) { // Uzatma 1. Devre Sonu
                 sureyiDurdur();
-                olayKaydet("Uzatma Devre Arası (105:00)", BILGI_RENGI);
-            } else if (macSaniyesi == 7200) { // 120:00
+                olayKaydet("Uzatma Devre Arası (" + (105 + uzatmaDakikasi) + ":00)", BILGI_RENGI);
+                düdükÇal();
+                uzatmaSifirla();
+            } else if (macSaniyesi >= 7200 + uzatmaSaniyesi && macSaniyesi >= 7000) { // Maç Sonu
                 maciBitir(); // Otomatik bitir
             }
         }));
@@ -113,6 +129,7 @@ public class CanliMacController {
         macSaniyesi = 0;
         skorEtiketleriniGuncelle();
         sureEtiketiniGuncelle();
+        uzatmaSifirla();
         vboxOlaylar.getChildren().clear();
     }
 
@@ -139,8 +156,30 @@ public class CanliMacController {
         }
         
         if (lblMacZamani != null) {
-            lblMacZamani.setText("CANLI - " + sureMetni);
+            String gostergeMetni = String.format("CANLI - %d'", dk);
+            lblMacZamani.setText(gostergeMetni);
         }
+        
+        if (lblUzatma != null) {
+            if (uzatmaDakikasi > 0) {
+                lblUzatma.setText("+" + uzatmaDakikasi);
+                lblUzatma.setVisible(true);
+            } else {
+                lblUzatma.setVisible(false);
+            }
+        }
+    }
+
+    @FXML
+    public void uzatmaEkle() {
+        uzatmaDakikasi++;
+        sureEtiketiniGuncelle();
+    }
+
+    @FXML
+    public void uzatmaSifirla() {
+        uzatmaDakikasi = 0;
+        sureEtiketiniGuncelle();
     }
 
     private void skorEtiketleriniGuncelle() {
@@ -158,6 +197,7 @@ public class CanliMacController {
             
             if (macSaniyesi == 0) {
                 olayKaydet("Maç Başladı!", BILGI_RENGI);
+                düdükÇal();
             } else {
                 olayKaydet("Maç Devam Ediyor...", BILGI_RENGI);
             }
@@ -230,10 +270,35 @@ public class CanliMacController {
         mevcutMac.setDeplasmanSkor(deplasmanSkor);
         mevcutMac.setOynandiMi(true);
         DataStore.getInstance().veriyiKaydet();
-
+        
+        bitisDüdügüÇal();
         uyariGoster("Maç Bitti", "Sonuç: " + evSahibiSkor + " - " + deplasmanSkor + "\nVeritabanına kaydedildi.");
         
         siradakiMaciYukle();
+    }
+
+    private void düdükSesiYukle() {
+        try {
+            String yol = getClass().getResource("/com/example/leaguemanager/sounds/referee-whistle.mp3").toExternalForm();
+            düdükSesi = new AudioClip(yol);
+            
+            String bitisYol = getClass().getResource("/com/example/leaguemanager/sounds/final-whistle.mp3").toExternalForm();
+            bitisDüdükSesi = new AudioClip(bitisYol);
+        } catch (Exception e) {
+            System.err.println("Düdük sesleri yüklenemedi: " + e.getMessage());
+        }
+    }
+
+    private void düdükÇal() {
+        if (düdükSesi != null) {
+            düdükSesi.play();
+        }
+    }
+
+    private void bitisDüdügüÇal() {
+        if (bitisDüdükSesi != null) {
+            bitisDüdükSesi.play();
+        }
     }
 
     private void olayKaydet(String metin, String renk) {

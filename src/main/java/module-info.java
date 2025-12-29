@@ -1,6 +1,7 @@
 module com.example.leaguemanager {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
 
 
     opens com.example.leaguemanager to javafx.fxml;
