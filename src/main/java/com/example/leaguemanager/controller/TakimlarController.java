@@ -75,6 +75,19 @@ public class TakimlarController {
             return;
         }
 
+        // Aynı isimde takım kontrolü & "BAY" ismi kontrolü
+        if (ad.equalsIgnoreCase("BAY")) {
+            uyariGoster("Hata", "'BAY' ismi sistem tarafından ayrılmıştır, kullanılamaz.");
+            return;
+        }
+
+        for (Takim t : DataStore.getInstance().takimlariGetir()) {
+            if (t.getAd().equalsIgnoreCase(ad)) {
+                uyariGoster("Hata", "Bu isimde bir takım zaten mevcut!");
+                return;
+            }
+        }
+
         // Yeni takımı listeye ekle ve kaydet
         Takim yeniTakim = new Takim(ad, sehir, stadyum);
         DataStore.getInstance().takimlariGetir().add(yeniTakim);

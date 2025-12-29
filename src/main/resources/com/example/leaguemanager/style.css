@@ -166,11 +166,12 @@
 }
 
 .purple-table {
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, rgba(59, 7, 100, 0.4));
     -fx-border-color: #334155;
 }
 
 .purple-table .table-header {
-    -fx-background-color: linear-gradient(to right, #581c87, #4c1d95);
+    -fx-background-color: linear-gradient(to right, rgba(88, 28, 135, 0.6), rgba(131, 24, 67, 0.6));
     /* Canlı Mor */
     -fx-padding: 12px;
     -fx-background-radius: 7 7 0 0;
@@ -178,7 +179,7 @@
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-border-color: transparent transparent #a855f7 transparent;
-    -fx-border-width: 0 0 2 0;
+    -fx-border-width: 0 0 0.3 0;
 }
 
 /* --- TABLE VIEW İÇ YAPISI --- */
@@ -298,7 +299,7 @@
 }
 
 .btn-fixture {
-    -fx-background-color: #475569;
+    -fx-background-color: linear-gradient(to right, #3b82f6, #06b6d4);
     -fx-text-fill: white;
     -fx-background-radius: 20;
     -fx-padding: 10 30;

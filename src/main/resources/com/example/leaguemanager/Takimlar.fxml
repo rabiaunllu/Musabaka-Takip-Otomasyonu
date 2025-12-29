@@ -17,7 +17,7 @@
    <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="modern-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <VBox spacing="20.0">
+            <VBox spacing="20.0" styleClass="blue-table">
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </padding>
@@ -27,7 +27,10 @@
                      <children>
                         <VBox styleClass="table-container" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="491.0" style="-fx-background-color: gradient();" styleClass="table-header" text="Takım Listesi" textFill="WHITE" />
+                              <Label maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="491.0" style="-fx-font-size: 20;" styleClass="table-header" text="Takım Listesi" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding></Label>
                               <TableView fx:id="tblTakimlar" styleClass="modern-scroll" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="colAd" prefWidth="75.0" text="Takım Adı" />
