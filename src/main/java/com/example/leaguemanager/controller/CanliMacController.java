@@ -219,18 +219,18 @@ public class CanliMacController {
     public void evSahibiGolEkle() {
         if (mevcutMac == null) return;
         evSahibiSkor++;
-        skorEtiketleriniGuncelle();
+        // Skor güncellemesini animasyon içine taşıdık
         olayKaydet("GOL! " + mevcutMac.getEvSahibi().getAd(), "#4ade80");
-        skoruParlat(lblEvSahibiSkor);
+        animasyonluSkorGuncelle(lblEvSahibiSkor, evSahibiSkor);
     }
 
     @FXML
     public void deplasmanGolEkle() {
         if (mevcutMac == null) return;
         deplasmanSkor++;
-        skorEtiketleriniGuncelle();
+        // Skor güncellemesini animasyon içine taşıdık
         olayKaydet("GOL! " + mevcutMac.getDeplasman().getAd(), "#e879f9");
-        skoruParlat(lblDeplasmanSkor);
+        animasyonluSkorGuncelle(lblDeplasmanSkor, deplasmanSkor);
     }
 
     @FXML
@@ -352,15 +352,28 @@ public class CanliMacController {
         vboxOlaylar.getChildren().add(0, satir);
     }
 
-    private void skoruParlat(Label etiket) {
-        ScaleTransition st = new ScaleTransition(Duration.millis(200), etiket);
-        st.setFromX(1.0);
-        st.setFromY(1.0);
-        st.setToX(1.5);
-        st.setToY(1.5);
-        st.setAutoReverse(true);
-        st.setCycleCount(2);
-        st.play();
+    private void animasyonluSkorGuncelle(Label etiket, int yeniSkor) {
+        // 1. Aşama: Büyüt (Pop-up)
+        ScaleTransition buyut = new ScaleTransition(Duration.millis(250), etiket);
+        buyut.setFromX(1.0);
+        buyut.setFromY(1.0);
+        buyut.setToX(1.5);
+        buyut.setToY(1.5);
+        
+        // Büyüme bitince rakamı değiştir
+        buyut.setOnFinished(e -> {
+            etiket.setText(String.valueOf(yeniSkor));
+            
+            // 2. Aşama: Küçült (Normal boyuta dön)
+            ScaleTransition kucult = new ScaleTransition(Duration.millis(250), etiket);
+            kucult.setFromX(1.5);
+            kucult.setFromY(1.5);
+            kucult.setToX(1.0);
+            kucult.setToY(1.0);
+            kucult.play();
+        });
+        
+        buyut.play();
     }
 
     private void uyariGoster(String baslik, String icerik) {

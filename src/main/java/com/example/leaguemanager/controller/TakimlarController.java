@@ -75,6 +75,25 @@ public class TakimlarController {
             return;
         }
 
+        // Karakter Sınırı Kontrolü
+        if (ad.length() > 30) {
+            uyariGoster("Uyarı", "Takım adı en fazla 30 karakter olabilir!");
+            return;
+        }
+        if (sehir.length() > 30) {
+            uyariGoster("Uyarı", "Şehir adı en fazla 30 karakter olabilir!");
+            return;
+        }
+        // Şehir adında rakam kontrolü
+        if (sehir.matches(".*\\d.*")) {
+            uyariGoster("Uyarı", "Şehir adında rakam bulunamaz!");
+            return;
+        }
+        if (stadyum.length() > 50) {
+            uyariGoster("Uyarı", "Stadyum adı en fazla 50 karakter olabilir!");
+            return;
+        }
+
         // Aynı isimde takım kontrolü & "BAY" ismi kontrolü
         if (ad.equalsIgnoreCase("BAY")) {
             uyariGoster("Hata", "'BAY' ismi sistem tarafından ayrılmıştır, kullanılamaz.");
