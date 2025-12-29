@@ -74,23 +74,29 @@ public class CanliMacController {
             int uzatmaSaniyesi = uzatmaDakikasi * 60;
             
             // Maç duraklatma kuralları (Uzatma dahil)
-            // Segment korumaları ekleyerek yüksek uzatma dakikalarının sonraki devrelerle karışmasını önlüyoruz.
-            if (macSaniyesi == 2700 + uzatmaSaniyesi && macSaniyesi < 3000) { // 1. Devre Sonu
+            // Segment korumaları: Uzatma süresinin bir sonraki devrenin başlangıcını geçmemesi için makul sınırlar (örn: 45+30 dk)
+            if (macSaniyesi == 2700 + uzatmaSaniyesi) { // 1. Devre Sonu (45+X)
                 sureyiDurdur();
                 olayKaydet("Devre Arası (" + (45 + uzatmaDakikasi) + ":00)", BILGI_RENGI);
                 düdükÇal();
                 uzatmaSifirla();
-            } else if (macSaniyesi == 5400 + uzatmaSaniyesi && macSaniyesi >= 4500 && macSaniyesi < 6000) { // 2. Devre Sonu
+                macSaniyesi = 2700; // Sayacı 45:00'a geri çek
+                sureEtiketiniGuncelle();
+            } else if (macSaniyesi == 5400 + uzatmaSaniyesi && macSaniyesi >= 4500) { // 2. Devre Sonu (90+X)
                 sureyiDurdur();
                 olayKaydet("Normal Süre Bitti (" + (90 + uzatmaDakikasi) + ":00)", BILGI_RENGI);
                 düdükÇal();
                 uzatmaSifirla();
-            } else if (macSaniyesi == 6300 + uzatmaSaniyesi && macSaniyesi >= 6000 && macSaniyesi < 7000) { // Uzatma 1. Devre Sonu
+                macSaniyesi = 5400; // Sayacı 90:00'a geri çek
+                sureEtiketiniGuncelle();
+            } else if (macSaniyesi == 6300 + uzatmaSaniyesi && macSaniyesi >= 6000) { // Uzatma 1. Devre Sonu (105+X)
                 sureyiDurdur();
                 olayKaydet("Uzatma Devre Arası (" + (105 + uzatmaDakikasi) + ":00)", BILGI_RENGI);
                 düdükÇal();
                 uzatmaSifirla();
-            } else if (macSaniyesi >= 7200 + uzatmaSaniyesi && macSaniyesi >= 7000) { // Maç Sonu
+                macSaniyesi = 6300; // Sayacı 105:00'a geri çek
+                sureEtiketiniGuncelle();
+            } else if (macSaniyesi >= 7200 + uzatmaSaniyesi && macSaniyesi >= 7000) { // Uzatma 2. Devre Sonu / Maç Sonu (120+X)
                 maciBitir(); // Otomatik bitir
             }
         }));

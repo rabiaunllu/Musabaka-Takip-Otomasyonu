@@ -121,9 +121,17 @@ public class TakimlarController {
     private void takimSil() {
         Takim seciliTakim = tblTakimlar.getSelectionModel().getSelectedItem();
         if (seciliTakim != null) {
-            DataStore.getInstance().takimlariGetir().remove(seciliTakim);
-            DataStore.getInstance().veriyiKaydet();
-            alanlariTemizle();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Takım Sil");
+            alert.setHeaderText("Silme İşlemi Onayı");
+            alert.setContentText(seciliTakim.getAd() + " takımını silmek istediğinize emin misiniz?");
+
+            if (alert.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
+                DataStore.getInstance().takimlariGetir().remove(seciliTakim);
+                DataStore.getInstance().veriyiKaydet();
+                alanlariTemizle();
+                uyariGoster("Başarılı", "Takım başarıyla silindi.");
+            }
         } else {
             uyariGoster("Uyarı", "Lütfen silmek için önce bir takım seçin.");
         }

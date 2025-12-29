@@ -62,7 +62,7 @@
                                     </styleClass>
                                 </TableColumn>
 
-                                <TableColumn fx:id="colTakim" prefWidth="250.0" text="Takım">
+                                <TableColumn fx:id="colTakim" prefWidth="250.0" style="-fx-alignment: CENTER;" text="Takım">
                                     <styleClass>
                                         <String fx:value="column-header" />
                                     </styleClass>
