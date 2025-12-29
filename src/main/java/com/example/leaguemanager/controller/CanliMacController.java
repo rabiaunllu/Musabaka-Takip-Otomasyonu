@@ -12,6 +12,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -22,8 +24,8 @@ public class CanliMacController {
     @FXML private Label lblDeplasman;
     @FXML private Label lblEvSahibiSkor;
     @FXML private Label lblDeplasmanSkor;
-    @FXML private Label lblSure; // FXML ID: lblSure (Süre)
-    @FXML private Label lblMacZamani; // Üst başlık zaman etiketi
+    @FXML private Label lblSure;
+    @FXML private Label lblMacZamani;
     @FXML private Circle sinyalDairesi;
     @FXML private VBox vboxOlaylar;
     @FXML private VBox vboxYoneticiKontrolleri;
@@ -251,7 +253,37 @@ public class CanliMacController {
              olayLbl.setStyle("-fx-text-fill: white; -fx-font-size: 13px;");
         }
 
-        satir.getChildren().addAll(sureLbl, olayLbl);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Button btnSil = new Button("🗑");
+        btnSil.setStyle("-fx-background-color: transparent; -fx-text-fill: #ef4444; -fx-cursor: hand; -fx-padding: 0 5 0 5; -fx-font-size: 14px;");
+        btnSil.setVisible(false);
+
+        // Rol kontrolü: Sadece yönetici ve geliştiriciler silebilir
+        boolean yetkiliMi = DataStore.getInstance().mevcutKullaniciyiGetir() != null &&
+                            DataStore.getInstance().mevcutKullaniciyiGetir().getRol() != Kullanici.Role.USER;
+
+        if (yetkiliMi) {
+            satir.setOnMouseEntered(e -> btnSil.setVisible(true));
+            satir.setOnMouseExited(e -> btnSil.setVisible(false));
+            
+            btnSil.setOnAction(e -> {
+                vboxOlaylar.getChildren().remove(satir);
+                
+                // Eğer silinen şey bir gol ise skoru geri çek
+                if (metin.startsWith("GOL!")) {
+                    if (metin.contains(mevcutMac.getEvSahibi().getAd())) {
+                        if (evSahibiSkor > 0) evSahibiSkor--;
+                    } else if (metin.contains(mevcutMac.getDeplasman().getAd())) {
+                        if (deplasmanSkor > 0) deplasmanSkor--;
+                    }
+                    skorEtiketleriniGuncelle();
+                }
+            });
+        }
+
+        satir.getChildren().addAll(sureLbl, olayLbl, spacer, btnSil);
         vboxOlaylar.getChildren().add(0, satir);
     }
 
