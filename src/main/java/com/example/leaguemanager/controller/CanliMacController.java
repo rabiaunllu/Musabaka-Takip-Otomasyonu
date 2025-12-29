@@ -84,6 +84,14 @@ public class CanliMacController {
         mevcutMac = null;
         for (Mac m : DataStore.getInstance().maclariGetir()) {
             if (!m.isOynandiMi()) {
+                // Eğer maçta "BAY" takımı varsa direkt geçmiş say
+                if (m.getEvSahibi().getAd().equals("BAY") || m.getDeplasman().getAd().equals("BAY")) {
+                    m.setOynandiMi(true);
+                    m.setEvSahibiSkor(0);
+                    m.setDeplasmanSkor(0);
+                    DataStore.getInstance().veriyiKaydet();
+                    continue; // Bir sonrakine bak
+                }
                 mevcutMac = m;
                 break;
             }

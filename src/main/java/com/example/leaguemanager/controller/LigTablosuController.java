@@ -101,6 +101,11 @@ public class LigTablosuController {
                 int evSkor = m.getEvSahibiSkor();
                 int depSkor = m.getDeplasmanSkor();
 
+                // BAY maçlarını istatistiklere katma
+                if (ev.getAd().equals("BAY") || dep.getAd().equals("BAY")) {
+                    continue;
+                }
+
                 // Ev sahibi için istatistikleri işle
                 if (evIstatistik != null) {
                     evIstatistik.setOynanan(evIstatistik.getOynanan() + 1);

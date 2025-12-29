@@ -10,7 +10,7 @@
 /* Ana Layout Arka Planı */
 .main-background {
     /* Çok hafif bir ışık geçişi */
-    -fx-background-color: linear-gradient(to bottom right, #1e293b, #0f172a);
+    -fx-background-color: linear-gradient(to bottom right, #1e3a8a, #0f172a);
 }
 
 /* =========================================
@@ -154,7 +154,7 @@
 }
 
 .blue-table .table-header {
-    -fx-background-color: linear-gradient(to right, #1e3a8a, #172554);
+    -fx-background-color: linear-gradient(to right, rgba(22, 78, 99, 0.6), rgba(30, 58, 138, 0.6));
     /* Canlı Lacivert */
     -fx-padding: 12px;
     -fx-background-radius: 7 7 0 0;
