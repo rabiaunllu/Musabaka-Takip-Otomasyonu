@@ -31,8 +31,9 @@ public class LigTablosuController {
     @FXML private TableColumn<TakimIstatistik, Integer> colYenenGol;
     @FXML private TableColumn<TakimIstatistik, Integer> colAveraj;
     @FXML private TableColumn<TakimIstatistik, Integer> colPuan;
-
+    
     @FXML private javafx.scene.control.Button btnYenile;
+    @FXML private javafx.scene.control.Button btnExcel;
 
     @FXML
     public void initialize() {
@@ -153,5 +154,81 @@ public class LigTablosuController {
 
         // Tabloyu güncelle
         tblLigTablosu.setItems(FXCollections.observableArrayList(liste));
+    }
+    @FXML
+    public void excelAktar() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Excel Dosyası Olarak Kaydet");
+        fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Excel Dosyaları", "*.xlsx"));
+        fileChooser.setInitialFileName("LigTablosu.xlsx");
+        
+        // Hata yakalama için sahne kontrolü
+        if (btnExcel == null || btnExcel.getScene() == null) {
+            System.err.println("Excel butonu veya sahne null!");
+            return;
+        }
+
+        java.io.File file = fileChooser.showSaveDialog(btnExcel.getScene().getWindow());
+        
+        if (file != null) {
+            try (org.apache.poi.xssf.usermodel.XSSFWorkbook workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook()) {
+                org.apache.poi.xssf.usermodel.XSSFSheet sheet = workbook.createSheet("Puan Durumu");
+                
+                // Başlık Satırı
+                org.apache.poi.xssf.usermodel.XSSFRow headerRow = sheet.createRow(0);
+                String[] columns = {"Sıra", "Takım", "O", "G", "B", "M", "AG", "YG", "AV", "P"};
+                
+                org.apache.poi.ss.usermodel.CellStyle headerStyle = workbook.createCellStyle();
+                org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+                font.setBold(true);
+                headerStyle.setFont(font);
+                
+                for (int i = 0; i < columns.length; i++) {
+                    org.apache.poi.ss.usermodel.Cell cell = headerRow.createCell(i);
+                    cell.setCellValue(columns[i]);
+                    cell.setCellStyle(headerStyle);
+                }
+                
+                // Verileri Yaz
+                ObservableList<TakimIstatistik> items = tblLigTablosu.getItems();
+                for (int i = 0; i < items.size(); i++) {
+                    TakimIstatistik stat = items.get(i);
+                    org.apache.poi.xssf.usermodel.XSSFRow row = sheet.createRow(i + 1);
+                    
+                    row.createCell(0).setCellValue(i + 1);
+                    row.createCell(1).setCellValue(stat.getTakim().getAd());
+                    row.createCell(2).setCellValue(stat.getOynanan());
+                    row.createCell(3).setCellValue(stat.getGalibiyet());
+                    row.createCell(4).setCellValue(stat.getBeraberlik());
+                    row.createCell(5).setCellValue(stat.getMaglubiyet());
+                    row.createCell(6).setCellValue(stat.getAtilanGol());
+                    row.createCell(7).setCellValue(stat.getYenenGol());
+                    row.createCell(8).setCellValue(stat.getAveraj());
+                    row.createCell(9).setCellValue(stat.getPuan());
+                }
+                
+                // Sütunları otomatik genişlet
+                for (int i = 0; i < columns.length; i++) {
+                    sheet.autoSizeColumn(i);
+                }
+                
+                // Dosyayı kaydet
+                try (java.io.FileOutputStream fileOut = new java.io.FileOutputStream(file)) {
+                    workbook.write(fileOut);
+                }
+                
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+                alert.setTitle("Başarılı");
+                alert.setContentText("Lig tablosu başarıyla Excel'e aktarıldı!");
+                alert.showAndWait();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+                alert.setTitle("Hata");
+                alert.setContentText("Excel dosyası oluşturulurken bir hata meydana geldi:\n" + e.getMessage());
+                alert.showAndWait();
+            }
+        }
     }
 }

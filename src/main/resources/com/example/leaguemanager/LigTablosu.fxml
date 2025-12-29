@@ -34,6 +34,11 @@
                                 <Insets bottom="8.0" left="25.0" right="25.0" top="8.0" />
                             </padding>
                         </Button>
+                        <Button fx:id="btnExcel" mnemonicParsing="false" onAction="#excelAktar" style="-fx-background-color: linear-gradient(to right, #16a34a, #059669); -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(5, 150, 105, 0.4), 10, 0, 0, 3);" text="Excel'e Aktar">
+                            <padding>
+                                <Insets bottom="8.0" left="25.0" right="25.0" top="8.0" />
+                            </padding>
+                        </Button>
                     </children>
                     <VBox.margin>
                         <Insets bottom="10.0" />

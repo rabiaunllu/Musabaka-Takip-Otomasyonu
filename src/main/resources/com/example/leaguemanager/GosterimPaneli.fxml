@@ -81,9 +81,9 @@
                         <Label maxWidth="1.7976931348623157E308" styleClass="table-header" text="Yaklaşan Maçlar" />
                         <HBox prefHeight="34.0" prefWidth="838.0" styleClass="column-header">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Ev Sahibi" />
-                              <Label maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Deplasman" />
-                              <Label maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Maç Tarihi" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Ev Sahibi" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Deplasman" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Maç Tarihi" />
                            </children>
                         </HBox>
                      </children>
@@ -100,9 +100,9 @@
                         <Label maxWidth="1.7976931348623157E308" styleClass="table-header" text="Son Sonuçlar" />
                         <HBox prefHeight="42.0" prefWidth="838.0" styleClass="column-header">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Ev Sahibi" />
-                              <Label maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Skor" />
-                              <Label maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Deplasman" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Ev Sahibi" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Skor" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="column-label" text="Deplasman" />
                            </children>
                         </HBox>
                      </children>

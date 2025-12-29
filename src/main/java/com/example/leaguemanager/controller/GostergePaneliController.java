@@ -177,7 +177,8 @@ public class GostergePaneliController {
         lbl.setPrefWidth(250.0);
         lbl.setTextFill(javafx.scene.paint.Color.WHITE);
         lbl.setFont(new Font(14.0));
-        lbl.setPadding(new Insets(6, 5, 2, 15));
+        lbl.setAlignment(javafx.geometry.Pos.CENTER);
+        lbl.setPadding(new Insets(6, 5, 2, 5));
         return lbl;
     }
 }
