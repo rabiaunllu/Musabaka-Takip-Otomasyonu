@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 // Giriş ekranı kontrolcüsü
-public class GirisController {
+public class GirisController extends BaseController {
 
     @FXML private TextField txtKullaniciAdi;    // Kullanıcı adı kutusu
     @FXML private PasswordField txtSifre;       // Şifre kutusu

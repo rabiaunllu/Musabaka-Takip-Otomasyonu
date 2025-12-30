@@ -19,7 +19,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-public class CanliMacController {
+public class CanliMacController extends BaseController {
 
     @FXML private Label lblEvSahibi;
     @FXML private Label lblDeplasman;
@@ -382,11 +382,5 @@ public class CanliMacController {
         buyut.play();
     }
 
-    private void uyariGoster(String baslik, String icerik) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(baslik);
-        alert.setHeaderText(null);
-        alert.setContentText(icerik);
-        alert.showAndWait();
-    }
+
 }

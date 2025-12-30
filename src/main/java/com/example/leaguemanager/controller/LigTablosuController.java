@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 // Puan durumu ekranı kontrolcüsü
-public class LigTablosuController {
+public class LigTablosuController extends BaseController {
 
     @FXML private TableView<TakimIstatistik> tblLigTablosu;
     @FXML private TableColumn<TakimIstatistik, Integer> colSira;
@@ -217,17 +217,11 @@ public class LigTablosuController {
                     workbook.write(fileOut);
                 }
                 
-                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-                alert.setTitle("Başarılı");
-                alert.setContentText("Lig tablosu başarıyla Excel'e aktarıldı!");
-                alert.showAndWait();
+                uyariGoster("Başarılı", "Lig tablosu başarıyla Excel'e aktarıldı!");
                 
             } catch (Exception e) {
                 e.printStackTrace();
-                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
-                alert.setTitle("Hata");
-                alert.setContentText("Excel dosyası oluşturulurken bir hata meydana geldi:\n" + e.getMessage());
-                alert.showAndWait();
+                hataGoster("Hata", "Excel dosyası oluşturulurken bir hata meydana geldi:\n" + e.getMessage());
             }
         }
     }

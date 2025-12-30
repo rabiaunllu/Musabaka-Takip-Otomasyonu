@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
-public class MainController {
+public class MainController extends BaseController {
 
     private static MainController ornek;
 

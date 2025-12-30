@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 // Takım yönetim ekranının kontrolcüsü
-public class TakimlarController {
+public class TakimlarController extends BaseController {
 
     @FXML private TableView<Takim> tblTakimlar;
     @FXML private TableColumn<Takim, String> colAd;
@@ -121,12 +121,7 @@ public class TakimlarController {
     private void takimSil() {
         Takim seciliTakim = tblTakimlar.getSelectionModel().getSelectedItem();
         if (seciliTakim != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Takım Sil");
-            alert.setHeaderText("Silme İşlemi Onayı");
-            alert.setContentText(seciliTakim.getAd() + " takımını silmek istediğinize emin misiniz?");
-
-            if (alert.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
+            if (onayIste("Takım Sil", seciliTakim.getAd() + " takımını silmek istediğinize emin misiniz?")) {
                 DataStore.getInstance().takimlariGetir().remove(seciliTakim);
                 DataStore.getInstance().veriyiKaydet();
                 alanlariTemizle();
@@ -161,12 +156,5 @@ public class TakimlarController {
         txtStadyum.clear();
     }
 
-    // Uyarı mesajı gösteren metod
-    private void uyariGoster(String baslik, String icerik) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(baslik);
-        alert.setHeaderText(null);
-        alert.setContentText(icerik);
-        alert.showAndWait();
-    }
+
 }

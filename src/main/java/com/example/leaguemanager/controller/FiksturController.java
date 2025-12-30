@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Fikstür ekranı kontrolcüsü
-public class FiksturController {
+public class FiksturController extends BaseController {
 
     @FXML private ComboBox<String> cmbHaftaSecici; // Hafta seçme kutusu
     @FXML private Label lblHaftaBasligi;          // Hangi hafta olduğunu gösteren başlık
@@ -105,14 +105,14 @@ public class FiksturController {
         boolean basarili = DataStore.getInstance().fiksturOlustur();
         
         if (!basarili) {
-            mesajGoster("Hata", "Fikstür oluşturmak için en az 2 takım lazım.");
+            uyariGoster("Hata", "Fikstür oluşturmak için en az 2 takım lazım.");
             return;
         }
 
         haftaSeciciYenile();
         cmbHaftaSecici.getSelectionModel().selectFirst();
         
-        mesajGoster("Başarılı", "Fikstür başarıyla oluşturuldu.");
+        uyariGoster("Başarılı", "Fikstür başarıyla oluşturuldu.");
     }
 
     // Hafta seçim kutusunu günceller
@@ -135,12 +135,5 @@ public class FiksturController {
         cmbHaftaSecici.setItems(FXCollections.observableArrayList(haftaListesi));
     }
 
-    // Mesaj kutusu gösteren yardımcı metod
-    private void mesajGoster(String baslik, String icerik) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(baslik);
-        alert.setHeaderText(null);
-        alert.setContentText(icerik);
-        alert.showAndWait();
-    }
+
 }

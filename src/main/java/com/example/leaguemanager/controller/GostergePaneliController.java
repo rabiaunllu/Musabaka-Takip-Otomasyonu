@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 // Ana panel (Dashboard) kontrolcü sınıfı
-public class GostergePaneliController {
+public class GostergePaneliController extends BaseController {
 
     @FXML private Label lblToplamTakim;      // Toplam takım sayısı etiketi
     @FXML private Label lblToplamMac;        // Toplam maç sayısı etiketi
