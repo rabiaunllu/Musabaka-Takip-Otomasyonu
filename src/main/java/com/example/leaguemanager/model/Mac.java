@@ -14,6 +14,8 @@ public class Mac implements Serializable {
     private LocalDateTime macTarihi; // Maç tarihi
     private boolean oynandiMi;    // Maç oynandı mı?
     private int hafta;           // Kaçıncı hafta maçı?
+    private String hakem;        // Maçın hakemi
+    private String stadyum;      // Maçın oynandığı stadyum
 
     // Fikstür oluştururken kullanılan kurucu
     public Mac(Takim evSahibi, Takim deplasman, LocalDateTime macTarihi, int hafta) {
@@ -92,6 +94,22 @@ public class Mac implements Serializable {
 
     public void setHafta(int hafta) {
         this.hafta = hafta;
+    }
+
+    public String getHakem() {
+        return hakem;
+    }
+
+    public void setHakem(String hakem) {
+        this.hakem = hakem;
+    }
+
+    public String getStadyum() {
+        return stadyum;
+    }
+
+    public void setStadyum(String stadyum) {
+        this.stadyum = stadyum;
     }
 
     // Skoru string olarak döndüren yardımcı metod

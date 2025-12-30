@@ -35,6 +35,17 @@ public class CanliMacController extends BaseController {
     @FXML private Button btnBaslat;
     @FXML private Button btnDurdur;
 
+    // Yeni Eklenen FXML Elemanları
+    @FXML private VBox vboxBaslangicAyarlari;
+    @FXML private javafx.scene.control.ComboBox<String> cmbHakem;
+    @FXML private javafx.scene.control.TextField txtStadyum;
+    @FXML private javafx.scene.control.TextField txtMacTarihi;
+    
+    @FXML private HBox hboxInfoBar;
+    @FXML private Label lblStadyumBilgi;
+    @FXML private Label lblTarihBilgi;
+    @FXML private Label lblHakemBilgi;
+
     private Mac mevcutMac;
     private int macSaniyesi = 0;
     private int evSahibiSkor = 0;
@@ -57,7 +68,14 @@ public class CanliMacController extends BaseController {
         if (DataStore.getInstance().mevcutKullaniciyiGetir() != null &&
             DataStore.getInstance().mevcutKullaniciyiGetir().getRol() == Kullanici.Role.USER) {
             vboxYoneticiKontrolleri.setVisible(false);
+            vboxBaslangicAyarlari.setVisible(false);
         }
+        
+        // Hakem listesini doldur
+        cmbHakem.getItems().addAll(
+            "Ali Palabıyık", "Halil Umut Meler", "Cüneyt Çakır", "Hüseyin Göçek", 
+            "Abdulkadir Bitigen", "Yaşar Kemal Uğurlu", "Atilla Karaoğlan", "Tugay Kaan Numanoğlu"
+        );
 
         // Rol tabanlı zamanlayıcı hızı
         Duration tickDuration = Duration.seconds(1); // Varsayılan: 90 dakika = 90 gerçek saniye
@@ -130,6 +148,24 @@ public class CanliMacController extends BaseController {
 
         lblEvSahibi.setText(mevcutMac.getEvSahibi().getAd());
         lblDeplasman.setText(mevcutMac.getDeplasman().getAd());
+        
+        // Zaten oynanıyor mu kontrolü (Saniye > 0 ise devam et, yoksa ayar ekranı)
+        // Basitleştirmek için: Saniye 0 ise Ayar Ekranı, değilse Canlı Ekran
+        
+        if (macSaniyesi > 0) {
+             canliModaGec();
+        } else {
+             baslangicModunaGec();
+             // Varsayılan tarih
+             if (mevcutMac.getMacTarihi() != null) {
+                 txtMacTarihi.setText(mevcutMac.getMacTarihi().toLocalDate().toString());
+             } else {
+                 txtMacTarihi.setText(java.time.LocalDate.now().toString());
+             }
+             // Varsayılan stadyum
+             txtStadyum.setText(mevcutMac.getEvSahibi().getStadyum());
+        }
+
         evSahibiSkor = 0;
         deplasmanSkor = 0;
         macSaniyesi = 0;
@@ -137,6 +173,47 @@ public class CanliMacController extends BaseController {
         sureEtiketiniGuncelle();
         uzatmaSifirla();
         vboxOlaylar.getChildren().clear();
+    }
+
+    private void baslangicModunaGec() {
+        vboxBaslangicAyarlari.setVisible(true);
+        vboxYoneticiKontrolleri.setVisible(false);
+        hboxInfoBar.setVisible(false);
+    }
+
+    private void canliModaGec() {
+        vboxBaslangicAyarlari.setVisible(false);
+        vboxYoneticiKontrolleri.setVisible(true);
+        hboxInfoBar.setVisible(true);
+        
+        // Bilgi barını güncelle
+        lblStadyumBilgi.setText("📍 " + (mevcutMac.getStadyum() != null ? mevcutMac.getStadyum() : "Bilinmiyor"));
+        lblTarihBilgi.setText("📅 " + (txtMacTarihi.getText())); // Basitçe text'ten alıyoruz
+        lblHakemBilgi.setText("📢 " + (mevcutMac.getHakem() != null ? mevcutMac.getHakem() : "Atanmadı"));
+    }
+
+    @FXML
+    public void macAyarlariniKaydetVeBaslat() {
+        if (mevcutMac == null) return;
+        
+        String hakem = cmbHakem.getValue();
+        String stadyum = txtStadyum.getText();
+        String tarih = txtMacTarihi.getText();
+        
+        if (hakem == null || stadyum.isEmpty()) {
+            uyariGoster("Eksik Bilgi", "Lütfen hakem ve stadyum bilgilerini giriniz.");
+            return;
+        }
+        
+        mevcutMac.setHakem(hakem);
+        mevcutMac.setStadyum(stadyum);
+        // Tarihi string olarak alıp basitçe geçiyoruz şimdilik, model LocalDateTime tutuyor ama UI String (basitleştirme)
+        
+        DataStore.getInstance().veriyiKaydet();
+        
+        canliModaGec();
+        // Maçı otomatik başlatmıyoruz, kullanıcı BAŞLAT butonuna basmalı, ama paneli açıyoruz
+        uyariGoster("Hazır", "Maç ayarları kaydedildi. Süreyi başlatabilirsiniz.");
     }
 
     private void sinyalAnimasyonunuBaslat() {
